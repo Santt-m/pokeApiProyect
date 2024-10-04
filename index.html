@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Pokedex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Section Pokedex -->
+    <section id="pokedex">
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Buscar Pokémon por nombre...">
+            
+            <!-- Botones de filtros -->
+            <div id="filter-buttons">
+                <button data-type="all">Todos</button>
+                <button data-type="fire">Fuego</button>
+                <button data-type="water">Agua</button>
+                <button data-type="grass">Planta</button>
+                <button data-type="electric">Eléctrico</button>
+                <button data-type="poison">Veneno</button>
+                <!-- Agregar más tipos según la necesidad -->
+            </div>
+        </div>
+
+        <!-- Contenedor de tarjetas de Pokémon -->
+        <div id="card-container"></div>
+    </section>
+
+    <!-- Importa el script como módulo -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
