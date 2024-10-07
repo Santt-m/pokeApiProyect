@@ -7,49 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Section Pokedex -->
-    <section id="pokedex">
-        <div class="filters">
-            <input type="text" id="searchInput" placeholder="Buscar Pokémon por nombre...">
-            
-            <!-- Botones de filtros -->
-            <div id="filter-buttons">
-                <button data-type="all">Todos</button>
-                <button data-type="fire">Fuego</button>
-                <button data-type="water">Agua</button>
-                <button data-type="grass">Planta</button>
-                <button data-type="electric">Eléctrico</button>
-                <button data-type="poison">Veneno</button>
-                <!-- Agregar más tipos según la necesidad -->
+    <main>
+        <section id="pokedex">
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="Buscar Pokémon por nombre...">
+                
+                <!-- Botones de filtros -->
+                <div id="filter-buttons">
+                    <button data-type="all">Todos</button>
+                    <button data-type="fire">Fuego</button>
+                    <button data-type="water">Agua</button>
+                    <button data-type="grass">Planta</button>
+                    <button data-type="electric">Eléctrico</button>
+                    <button data-type="poison">Veneno</button>
+                    <!-- Agregar más tipos según la necesidad -->
+                </div>
             </div>
-        </div>
+    
+            <!-- Contenedor de tarjetas de Pokémon -->
+            <div id="card-container"></div>
+        </section>
+    </main>
 
-        <!-- Contenedor de tarjetas de Pokémon -->
-        <div id="card-container"></div>
-    </section>
-
-    <!-- Importa el script como módulo -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
-
-
-<div class="cardPokemon">
-    <div class="cardPokemon_head">
-        <div class="cardPokemon_head_ID">
-            <p>(ID)</p>
-        </div>
-        <div class="cardPokemon_head_Name">
-            <p>(Pokemon Name)</p>
-        </div>
-        <div class="cardPokemon_head_health">
-            <p>(Health)</p>
-        </div>
-        <div class="cardPokemon_head_types">
-            <p>(Types)</p>
-        </div>
-    </div>
-    <div class="cardPokemon_body">
-
-    </div>
-</div>

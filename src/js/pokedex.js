@@ -1,4 +1,5 @@
 import { getPokemons, getPokemonDetails, getPokemonByType } from './api.js';
+import { createPokemonCard } from './card.js';
 
 let offset = 0;
 const limit = 20;
@@ -28,7 +29,7 @@ async function loadPokemons() {
         allPokemons = [...allPokemons, ...pokemonsDetails];
         filteredPokemons = allPokemons;
         displayPokemons(filteredPokemons);
-        offset += limit;  // Incrementamos el offset para la siguiente carga
+        offset += limit;
     } catch (error) {
         console.error('Error al cargar los Pokémon:', error);
     }
@@ -39,25 +40,8 @@ function displayPokemons(pokemons) {
     container.innerHTML = '';  // Limpiamos el contenedor antes de mostrar los Pokémon
 
     pokemons.forEach(pokemon => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.setAttribute('data-id', `#${pokemon.id}`);
-        card.setAttribute('data-type', pokemon.types.map(typeInfo => typeInfo.type.name).join(' '));
-
-        const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-        const imageUrl = pokemon.sprites.front_default;
-        const types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
-
-        // Estructura de la carta
-        card.innerHTML = `
-            <img src="${imageUrl}" alt="${name}" class="pokemon-image">
-            <h3>${name}</h3>
-            <p><strong>Tipos:</strong> ${types}</p>
-            <p><strong>HP:</strong> ${pokemon.stats[0].base_stat}</p>
-            <p><strong>Ataque:</strong> ${pokemon.stats[1].base_stat}</p>
-        `;
-
-        container.appendChild(card);
+        const cardHTML = createPokemonCard(pokemon);
+        container.appendChild(cardHTML);
     });
 }
 
@@ -71,7 +55,7 @@ async function filterByType(event) {
     const type = event.target.dataset.type;
     
     if (type === 'all') {
-        filteredPokemons = allPokemons;  // Mostrar todos
+        filteredPokemons = allPokemons;
     } else {
         const pokemonsByType = await getPokemonByType(type);
         const pokemonDetails = await Promise.all(pokemonsByType.map(pokemon => getPokemonDetails(pokemon.url)));

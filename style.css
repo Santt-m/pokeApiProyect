@@ -1,108 +1,123 @@
-/* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f2f2f2;
+@import url(./src/css/card.css);
+
+:root {
+    /* Paleta de colores */
+    --bodybackgroundcolor: #f4f4f4;
+    --background-color: #f4f4f4;
+
+    --primary-color: #42b883;
+    --primary-color-hover: #339a6d;
+
+    --secondary-color: #347474;
+    --secondary-color-hover: #2b5d5d;
+
+    --white-color: #fff;
+
+    /* Tipografía */
+    --font-color: #333;
+    --font-color-light: #666;
+
+    --primary-font-size: 2em;
+    --primary-font-weight: 600;
+    --primary-lletter-spacing: 1.5px;
+
+    --secondary-font-size: 1.5em;
+    --secondary-font-weight: 400;
+    --secondary-letter-spacing: 1px;
+
+    --font-color-p: #333;
+    --p-letter-spacing: 1.5px;
+
+
+    --font-size-h3: 2em;
+    --font-size-h4: 1.1em;
+    --font-size-h5: 1.5em;
+    --font-size-p: 0.9em;
+
+    --font-weight-h3: 700;
+    --font-weight-h4: 500;
+    --font-height-h5: 400;
+    --font-weight-p: 500;
+
+    /* Bordes y sombras */
+    --std-borderRadius: 10px;
+    --btn-borderRadius: 25px;
+    --std-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --hover-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+
+    background-color: var(--background-color);
+    color: var(--font-color);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+a {
+    text-decoration: none;
+}
+
+main {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#pokedex {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.filters input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+#filter-buttons {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 #card-container {
+    width: 90%;
+    background-color: gray;
+    padding: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 20px;
-}
-
-/* Pokemon Card */
-.card {
-    width: 220px;
-    height: 320px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    transition: transform 0.3s;
-    text-align: center;
-}
-
-/* Card hover effect */
-.card:hover {
-    transform: scale(1.05);
-}
-
-/* Pokemon ID at the top */
-.card::before {
-    content: attr(data-id); /* Usamos el atributo data-id para mostrar el ID */
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #666;
-}
-
-/* Pokemon image */
-.pokemon-image {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-/* Pokemon name */
-.card h3 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Pokemon type and details */
-.card p {
-    font-size: 14px;
-    color: #555;
-    margin: 5px 0;
-}
-
-/* Type-specific background colors */
-.card[data-type~="fire"] {
-    background-color: #fddfdf;
-}
-
-.card[data-type~="water"] {
-    background-color: #dceeff;
-}
-
-.card[data-type~="grass"] {
-    background-color: #ddf7e1;
-}
-
-.card[data-type~="electric"] {
-    background-color: #f9f9c1;
-}
-
-.card[data-type~="ground"] {
-    background-color: #f5e2c4;
-}
-
-.card[data-type~="psychic"] {
-    background-color: #fbdde7;
-}
-
-.card[data-type~="rock"] {
-    background-color: #e4e4e4;
-}
-
-.card[data-type~="bug"] {
-    background-color: #f0f9e3;
-}
-
-.card[data-type~="poison"] {
-    background-color: #e6d1ec;
 }

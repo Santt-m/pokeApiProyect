@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+:root {
+    /* colores */
+    --cardHeadColor: #f0f1f5;
+    --std-box-shadow: 0px 3px 4px rgba(5, 5, 5, 0.3);
+    --font-color-p: #333;
+}
+
+/* Estilo de las tarjetas */
+.cardPokemon {
+    width: 250px;
+    padding: 10px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--std-box-shadow);
+    overflow: hidden;
+    transition: transform 0.5s ease;
+}
+.cardPokemon:hover {
+    transform: scale(1.05);
+}
+
+/* cardPokemon_head */
+.cardPokemon_head {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-radius: 60px 20px 0px 0px;
+    background-color: var(--cardHeadColor);
+}
+.cardPokemon_head_ID {
+    width: 30px;
+    height: 30px;
+    padding: 7px;
+    border-radius: 100%;
+
+    position: relative;
+    top: -5px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 900;
+    font-style: normal;
+    letter-spacing: 1.2px;
+    color: #6890f0;
+
+    background-color: white;
+
+    box-shadow: var(--std-box-shadow);
+}
+.cardPokemon_head_Name {
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    font-family: "Roboto", system-ui;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 1.2px;
+}
+.cardPokemon_head_health {
+    width: 60px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 900;
+    font-style: normal;
+    letter-spacing: 1.2px;
+    color: #6890f0;
+}
+.cardPokemon_head_health img {
+    width: 25px;
+    height: 25px;
+}
+
+/* Estilo para los tipos de Pokémon */
+.cardPokemon_head_types {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+    border-radius: 10px;
+}
+.cardPokemon_head_types li {
+    width: 85px;
+    height: 25px;
+    padding: 3px;
+    border-radius: 5px;
+    box-shadow: var(--std-box-shadow);
+    border: 1px solid var(--std-box-shadow);
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    font-style: normal;
+    letter-spacing: 1px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.cardPokemon_head_types li img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Estilo del cuerpo de la tarjeta */
+.cardPokemon_body {
+    width: 100%;
+    background-color: var(--cardHeadColor);
+}
+.cardPokemon_cont {
+    margin: 5px 7px 5px 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: var(--std-box-shadow);
+}
+.cardPokemon_cont img {
+    width: 100%;
+    height: auto;
+}
+.cardPokemon_cont ul {
+    width: 100%;
+    padding: 5px;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    font-style: normal;
+    letter-spacing: 1px;
+    color: var(--font-color-p);
+    text-wrap: nowrap;
+}
+.cardPokemon_cont li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+
+}
+.cardPokemon_cont li img{
+    width: 25px;
+    height: 25px;
+}
+
+
+.cardPokemon_cont_stats {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 1px;
+    color: var(--font-color-p);
+}
+.cardPokemon_cont_stats img{
+    width: 25px;
+    height: 25px;
+}
+.cardPokemon_cont_stats li {
+    padding: 5px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.cardPokemon_cont_stats p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+
+.cardPokemon .icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* cardPokemon_footer */
+.cardPokemon_footer {
+    width: 100%;
+    height: 70px;
+    padding: 15px;
+    border-radius: 0px 0px 60px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    background-color: var(--cardHeadColor);
+}
+
+.cardPokemon_footer li {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Colores por tipo de Pokémon */
+.type-fire {
+    background-color: #f08030;
+}
+
+.type-water {
+    background-color: #6890f0;
+}
+
+.type-grass {
+    background-color: #78c850;
+}
+
+.type-electric {
+    background-color: #f8d030;
+}
+
+.type-poison {
+    background-color: #a040a0;
+}
+
+.type-normal {
+    background-color: #a8a878;
+}
+
+.type-ice {
+    background-color: #98d8d8;
+}
+
+.type-fighting {
+    background-color: #c03028;
+}
+
+.type-ground {
+    background-color: #e0c068;
+}
+
+.type-flying {
+    background-color: #a890f0;
+}
+
+.type-psychic {
+    background-color: #f85888;
+}
+
+.type-bug {
+    background-color: #a8b820;
+}
+
+.type-rock {
+    background-color: #b8a038;
+}
+
+.type-ghost {
+    background-color: #705898;
+}
+
+.type-dark {
+    background-color: #705848;
+}
+
+.type-dragon {
+    background-color: #7038f8;
+}
+
+.type-steel {
+    background-color: #b8b8d0;
+}
+
+.type-fairy {
+    background-color: #ee99ac;
+}
