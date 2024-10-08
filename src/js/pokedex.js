@@ -1,72 +1,126 @@
-import { getPokemons, getPokemonDetails, getPokemonByType } from './api.js';
-import { createPokemonCard } from './card.js';
+// ./src/js/pokedex.js
 
-let offset = 0;
-const limit = 20;
-let allPokemons = [];
-let filteredPokemons = [];
+import { 
+    getAllPokemons, 
+    getPokemonsByType, 
+    getPokemonsByGeneration, 
+    getPokemonsByHabitat, 
+    getPokemonDetails, 
+    getFiltersData 
+} from './api.js';
+import { createPokemonCard, typeIcons } from './card.js';
 
-export function initPokedex() {
-    console.log('Iniciando Pokedex...');
-    loadPokemons();
+// Función para crear los botones de tipo, generación y hábitat
+function createFilterButtons(filters) {
+    const typeButtonsContainer = document.getElementById('type-buttons');
 
-    // Buscar por nombre
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', filterByName);
+    // Crear los botones de tipo
+    filters.types.forEach(type => {
+        const button = createButton(type.name, typeIcons[type.name], () => filterByType(type.name));
+        typeButtonsContainer.appendChild(button);
+    });
 
-    // Filtros por tipo
-    const filterButtons = document.querySelectorAll('#filter-buttons button');
-    filterButtons.forEach(button => button.addEventListener('click', filterByType));
+    // Crear botones para generaciones
+    filters.generations.forEach(generation => {
+        const generationId = generation.url.split('/').filter(Boolean).pop(); // Extraer el ID
+        const button = createButton(generation.name, null, () => filterByGeneration(generationId));
+        typeButtonsContainer.appendChild(button);
+    });
 
-    // Scroll infinito
-    window.addEventListener('scroll', handleScroll);
+    // Crear botones para hábitats
+    filters.habitats.forEach(habitat => {
+        const button = createButton(habitat.name, null, () => filterByHabitat(habitat.name));
+        typeButtonsContainer.appendChild(button);
+    });
+
+    // Crear el botón "Ver Todos"
+    const showAllButton = createButton('Ver Todos', typeIcons.all, showAllPokemon);
+    typeButtonsContainer.appendChild(showAllButton);
 }
 
-async function loadPokemons() {
-    try {
-        const pokemons = await getPokemons(limit, offset);
-        const pokemonsDetails = await Promise.all(pokemons.map(pokemon => getPokemonDetails(pokemon.url)));
-        allPokemons = [...allPokemons, ...pokemonsDetails];
-        filteredPokemons = allPokemons;
-        displayPokemons(filteredPokemons);
-        offset += limit;
-    } catch (error) {
-        console.error('Error al cargar los Pokémon:', error);
+// Función para crear un botón con icono
+function createButton(text, iconSrc, clickHandler) {
+    const button = document.createElement('button');
+    button.classList.add('type-button');
+
+    if (iconSrc) {
+        const icon = document.createElement('img');
+        icon.src = iconSrc;
+        icon.alt = `${text} icon`;
+        icon.classList.add('type-icon');
+        button.appendChild(icon);
     }
+
+    button.appendChild(document.createTextNode(text));
+    button.addEventListener('click', () => {
+        clickHandler();
+        setActiveButton(button);
+    });
+
+    return button;
 }
 
-function displayPokemons(pokemons) {
-    const container = document.getElementById('card-container');
-    container.innerHTML = '';  // Limpiamos el contenedor antes de mostrar los Pokémon
+// Función para marcar el botón clicado como activo y desactivar los otros
+function setActiveButton(activeButton) {
+    const buttons = document.querySelectorAll('.type-button, #type-buttons > button');
+    buttons.forEach(button => button.classList.remove('active'));
+    activeButton.classList.add('active');
+}
 
-    pokemons.forEach(pokemon => {
-        const cardHTML = createPokemonCard(pokemon);
-        container.appendChild(cardHTML);
+// Función para mostrar todos los Pokémon
+async function showAllPokemon() {
+    const pokemonList = await getAllPokemons();
+    const cardContainer = document.getElementById('card-container');
+    cardContainer.innerHTML = ''; // Limpiar el contenedor
+
+    const pokemonDetailsPromises = pokemonList.map(pokemon => getPokemonDetails(pokemon.url));
+    const pokemonDetailsArray = await Promise.all(pokemonDetailsPromises);
+
+    pokemonDetailsArray.forEach(pokemonDetails => {
+        if (pokemonDetails) {
+            const pokemonCard = createPokemonCard(pokemonDetails);
+            cardContainer.appendChild(pokemonCard);
+        }
     });
 }
 
-function filterByName(event) {
-    const searchText = event.target.value.toLowerCase();
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchText));
-    displayPokemons(filteredPokemons);
+// Función para filtrar Pokémon por tipo
+async function filterByType(type) {
+    const pokemonsByType = await getPokemonsByType(type);
+    renderPokemonCards(pokemonsByType);
 }
 
-async function filterByType(event) {
-    const type = event.target.dataset.type;
-    
-    if (type === 'all') {
-        filteredPokemons = allPokemons;
-    } else {
-        const pokemonsByType = await getPokemonByType(type);
-        const pokemonDetails = await Promise.all(pokemonsByType.map(pokemon => getPokemonDetails(pokemon.url)));
-        filteredPokemons = pokemonDetails;
-    }
-    
-    displayPokemons(filteredPokemons);
+// Función para filtrar Pokémon por generación
+async function filterByGeneration(generation) {
+    const pokemonsByGeneration = await getPokemonsByGeneration(generation);
+    renderPokemonCards(pokemonsByGeneration);
 }
 
-function handleScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        loadPokemons();  // Cargar más Pokémon al llegar al final del scroll
-    }
+// Función para filtrar Pokémon por hábitat
+async function filterByHabitat(habitat) {
+    const pokemonsByHabitat = await getPokemonsByHabitat(habitat);
+    renderPokemonCards(pokemonsByHabitat);
+}
+
+// Función para renderizar las tarjetas de Pokémon
+async function renderPokemonCards(pokemons) {
+    const cardContainer = document.getElementById('card-container');
+    cardContainer.innerHTML = ''; // Limpiar el contenedor
+
+    const pokemonDetailsPromises = pokemons.map(pokemon => getPokemonDetails(pokemon.url));
+    const pokemonDetailsArray = await Promise.all(pokemonDetailsPromises);
+
+    pokemonDetailsArray.forEach(pokemonDetails => {
+        if (pokemonDetails) {
+            const pokemonCard = createPokemonCard(pokemonDetails);
+            cardContainer.appendChild(pokemonCard);
+        }
+    });
+}
+
+// Función para inicializar la Pokédex y configurar el buscador
+export async function initPokedex() {
+    const filters = await getFiltersData();
+    createFilterButtons(filters);
+    await showAllPokemon();
 }

@@ -1,5 +1,8 @@
 @import url(./src/css/card.css);
+@import url(./src/css/pokedex.css);
+@import url(./src/css/header.css);
 
+@import url(./src/css/modal.css);
 :root {
     /* Paleta de colores */
     --bodybackgroundcolor: #f4f4f4;
@@ -15,33 +18,14 @@
 
     /* Tipografía */
     --font-color: #333;
+    --font-colorHover: #afafaf;
     --font-color-light: #666;
-
-    --primary-font-size: 2em;
-    --primary-font-weight: 600;
-    --primary-lletter-spacing: 1.5px;
-
-    --secondary-font-size: 1.5em;
-    --secondary-font-weight: 400;
-    --secondary-letter-spacing: 1px;
-
     --font-color-p: #333;
-    --p-letter-spacing: 1.5px;
-
-
-    --font-size-h3: 2em;
-    --font-size-h4: 1.1em;
-    --font-size-h5: 1.5em;
-    --font-size-p: 0.9em;
-
-    --font-weight-h3: 700;
-    --font-weight-h4: 500;
-    --font-height-h5: 400;
-    --font-weight-p: 500;
 
     /* Bordes y sombras */
     --std-borderRadius: 10px;
     --btn-borderRadius: 25px;
+    --std-borderColor: rgba(70, 62, 62, 0.2);
     --std-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     --hover-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
@@ -76,48 +60,4 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-
-#pokedex {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.filters {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.filters input {
-    width: 300px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
-}
-
-#filter-buttons {
-    width: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-#card-container {
-    width: 90%;
-    background-color: gray;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
 }

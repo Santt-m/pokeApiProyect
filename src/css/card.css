@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
 
 :root {
     /* colores */
@@ -13,7 +13,7 @@
 
 /* Estilo de las tarjetas */
 .cardPokemon {
-    width: 250px;
+    width: 290px;
     padding: 10px;
     border-radius: 25px;
     display: flex;
@@ -22,8 +22,11 @@
     justify-content: space-between;
     box-shadow: var(--std-box-shadow);
     overflow: hidden;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease-in-out,
+        ackground 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 2px solid var(--std-borderColor);
 }
+
 .cardPokemon:hover {
     transform: scale(1.05);
 }
@@ -31,6 +34,7 @@
 /* cardPokemon_head */
 .cardPokemon_head {
     width: 100%;
+    height: 115px;
     padding: 5px;
     display: flex;
     flex-direction: row;
@@ -39,49 +43,65 @@
     border-radius: 60px 20px 0px 0px;
     background-color: var(--cardHeadColor);
 }
+
 .cardPokemon_head_ID {
-    width: 30px;
-    height: 30px;
-    padding: 7px;
+    min-width: 60px;
+    height: 60px;
     border-radius: 100%;
 
     position: relative;
-    top: -5px;
-    right: 5px;
+    top: -10px;
+    right: 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-weight: 900;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
     font-style: normal;
-    letter-spacing: 1.2px;
-    color: #6890f0;
+    letter-spacing: 1px;
 
-    background-color: white;
+    color: rgba(9, 72, 190, 0.774);
+    box-shadow: 0 5px 10px rgba(239, 243, 0, 0.61);
 
-    box-shadow: var(--std-box-shadow);
+    background-image: url('../icons/coin.png');
+    background-size: cover;
 }
+
 .cardPokemon_head_Name {
-    padding: 2px;
+    max-width: 100px;
     display: flex;
     align-items: center;
+    justify-content: center;
+
     font-family: "Roboto", system-ui;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    font-style: italic;
+    font-style: bold;
     letter-spacing: 1.2px;
+
+    text-align: center;
+    text-wrap: wrap;
 }
+
 .cardPokemon_head_health {
-    width: 60px;
+    min-width: 70px;
     padding: 5px;
     display: flex;
     align-items: center;
     gap: 5px;
-    font-weight: 900;
+
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 26px;
+    font-optical-sizing: auto;
+    font-weight: 700;
     font-style: normal;
-    letter-spacing: 1.2px;
-    color: #6890f0;
+    letter-spacing: 1px;
+    
 }
+
 .cardPokemon_head_health img {
     width: 25px;
     height: 25px;
@@ -100,13 +120,15 @@
     gap: 5px;
     border-radius: 10px;
 }
+
 .cardPokemon_head_types li {
-    width: 85px;
-    height: 25px;
+    width: 100px;
+    height: 30px;
     padding: 3px;
+    padding-right: 5px;
     border-radius: 5px;
     box-shadow: var(--std-box-shadow);
-    border: 1px solid var(--std-box-shadow);
+    border: 2px solid var(--std-borderColor);
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 14px;
@@ -117,7 +139,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    transition: all 0.5s ease;
 }
+.cardPokemon_head_types li:hover {
+    color: var(--font-colorHover);
+    font-weight: 600;
+}
+
 .cardPokemon_head_types li img {
     width: 20px;
     height: 20px;
@@ -128,6 +157,7 @@
     width: 100%;
     background-color: var(--cardHeadColor);
 }
+
 .cardPokemon_cont {
     margin: 5px 7px 5px 7px;
     display: flex;
@@ -136,10 +166,12 @@
     border-radius: 15px;
     box-shadow: var(--std-box-shadow);
 }
+
 .cardPokemon_cont img {
     width: 100%;
     height: auto;
 }
+
 .cardPokemon_cont ul {
     width: 100%;
     padding: 5px;
@@ -155,22 +187,24 @@
     color: var(--font-color-p);
     text-wrap: nowrap;
 }
-.cardPokemon_cont li{
+
+.cardPokemon_cont li {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 5px;
-
     font-family: "Poppins", sans-serif;
+    font-size: 12px;
     font-weight: 500;
     font-style: normal;
 
-}
-.cardPokemon_cont li img{
-    width: 25px;
-    height: 25px;
+    color: var(--font-color-p);
 }
 
+.cardPokemon_cont li img {
+    width: 15px;
+    height: 15px;
+}
 
 .cardPokemon_cont_stats {
     width: 100%;
@@ -183,10 +217,12 @@
     letter-spacing: 1px;
     color: var(--font-color-p);
 }
-.cardPokemon_cont_stats img{
+
+.cardPokemon_cont_stats img {
     width: 25px;
     height: 25px;
 }
+
 .cardPokemon_cont_stats li {
     padding: 5px;
     margin-left: 10px;
@@ -194,22 +230,14 @@
     flex-direction: row;
     gap: 5px;
 }
-.cardPokemon_cont_stats p{
+
+.cardPokemon_cont_stats p {
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     font-style: normal;
-}
-
-
-.cardPokemon .icon {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    margin-right: 5px;
 }
 
 /* cardPokemon_footer */
@@ -230,75 +258,148 @@
     flex-direction: row;
 }
 
-/* Colores por tipo de Pokémon */
+/* colores para tipos de Pokémon */
+
 .type-fire {
-    background-color: #f08030;
+    background: linear-gradient(135deg, #f08030, #f05015);
+}
+
+.type-fire:hover {
+    background: linear-gradient(135deg, #f05015, #d03d0a);
 }
 
 .type-water {
-    background-color: #6890f0;
+    background: linear-gradient(135deg, #6890f0, #4a78e0);
+}
+
+.type-water:hover {
+    background: linear-gradient(135deg, #4a78e0, #3565c0);
 }
 
 .type-grass {
-    background-color: #78c850;
+    background: linear-gradient(135deg, #78c850, #4caf50);
+}
+
+.type-grass:hover {
+    background: linear-gradient(135deg, #4caf50, #3e8e40);
 }
 
 .type-electric {
-    background-color: #f8d030;
+    background: linear-gradient(135deg, #f8d030, #e8b030);
+}
+
+.type-electric:hover {
+    background: linear-gradient(135deg, #e8b030, #d8a020);
 }
 
 .type-poison {
-    background-color: #a040a0;
+    background: linear-gradient(135deg, #a040a0, #893080);
+}
+
+.type-poison:hover {
+    background: linear-gradient(135deg, #893080, #742468);
 }
 
 .type-normal {
-    background-color: #a8a878;
+    background: linear-gradient(135deg, #a8a878, #8b8b78);
+}
+
+.type-normal:hover {
+    background: linear-gradient(135deg, #8b8b78, #78785e);
 }
 
 .type-ice {
-    background-color: #98d8d8;
+    background: linear-gradient(135deg, #98d8d8, #70bdbd);
+}
+
+.type-ice:hover {
+    background: linear-gradient(135deg, #70bdbd, #58a0a0);
 }
 
 .type-fighting {
-    background-color: #c03028;
+    background: linear-gradient(135deg, #c03028, #a82820);
+}
+
+.type-fighting:hover {
+    background: linear-gradient(135deg, #a82820, #902018);
 }
 
 .type-ground {
-    background-color: #e0c068;
+    background: linear-gradient(135deg, #e0c068, #d6b852);
+}
+
+.type-ground:hover {
+    background: linear-gradient(135deg, #d6b852, #b89c3a);
 }
 
 .type-flying {
-    background-color: #a890f0;
+    background: linear-gradient(135deg, #a890f0, #8b78d2);
+}
+
+.type-flying:hover {
+    background: linear-gradient(135deg, #8b78d2, #7a6bb6);
 }
 
 .type-psychic {
-    background-color: #f85888;
+    background: linear-gradient(135deg, #f85888, #d04a6a);
+}
+
+.type-psychic:hover {
+    background: linear-gradient(135deg, #d04a6a, #b43e5c);
 }
 
 .type-bug {
-    background-color: #a8b820;
+    background: linear-gradient(135deg, #a8b820, #8a9a16);
+}
+
+.type-bug:hover {
+    background: linear-gradient(135deg, #8a9a16, #7a860e);
 }
 
 .type-rock {
-    background-color: #b8a038;
+    background: linear-gradient(135deg, #b8a038, #a98b2e);
+}
+
+.type-rock:hover {
+    background: linear-gradient(135deg, #a98b2e, #8e7a25);
 }
 
 .type-ghost {
-    background-color: #705898;
+    background: linear-gradient(135deg, #705898, #5a3c7e);
+}
+
+.type-ghost:hover {
+    background: linear-gradient(135deg, #5a3c7e, #47306b);
 }
 
 .type-dark {
-    background-color: #705848;
+    background: linear-gradient(135deg, #705848, #4c3d3a);
+}
+
+.type-dark:hover {
+    background: linear-gradient(135deg, #4c3d3a, #3c302c);
 }
 
 .type-dragon {
-    background-color: #7038f8;
+    background: linear-gradient(135deg, #7038f8, #5828b5);
+}
+
+.type-dragon:hover {
+    background: linear-gradient(135deg, #5828b5, #481f94);
 }
 
 .type-steel {
-    background-color: #b8b8d0;
+    background: linear-gradient(135deg, #b8b8d0, #9a9a9a);
+}
+
+.type-steel:hover {
+    background: linear-gradient(135deg, #9a9a9a, #7e7e7e);
 }
 
 .type-fairy {
-    background-color: #ee99ac;
+    background: linear-gradient(135deg, #f4a6c0, #d37cbf);
+}
+
+.type-fairy:hover {
+    background: linear-gradient(135deg, #d37cbf, #b868a4);
 }
