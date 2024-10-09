@@ -1,3 +1,5 @@
+// ./src/js/modal.js
+
 class Modal {
   constructor(options) {
     this.options = options;

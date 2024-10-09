@@ -6,9 +6,10 @@ import {
     getPokemonsByGeneration, 
     getPokemonsByHabitat, 
     getPokemonDetails, 
-    getFiltersData 
+    getFiltersData, 
+    localIcons 
 } from './api.js';
-import { createPokemonCard, typeIcons } from './card.js';
+import { createPokemonCard } from './card.js';
 
 // Función para crear los botones de tipo, generación y hábitat
 function createFilterButtons(filters) {
@@ -16,7 +17,7 @@ function createFilterButtons(filters) {
 
     // Crear los botones de tipo
     filters.types.forEach(type => {
-        const button = createButton(type.name, typeIcons[type.name], () => filterByType(type.name));
+        const button = createButton(type.name, localIcons[type.name], () => filterByType(type.name));
         typeButtonsContainer.appendChild(button);
     });
 
@@ -34,7 +35,7 @@ function createFilterButtons(filters) {
     });
 
     // Crear el botón "Ver Todos"
-    const showAllButton = createButton('Ver Todos', typeIcons.all, showAllPokemon);
+    const showAllButton = createButton('Ver Todos', localIcons.all, showAllPokemon);
     typeButtonsContainer.appendChild(showAllButton);
 }
 
@@ -118,9 +119,21 @@ async function renderPokemonCards(pokemons) {
     });
 }
 
-// Función para inicializar la Pokédex y configurar el buscador
-export async function initPokedex() {
+// Cargar los filtros y crear los botones cuando se cargue la página
+document.addEventListener('DOMContentLoaded', async () => {
     const filters = await getFiltersData();
     createFilterButtons(filters);
-    await showAllPokemon();
+
+    // Mostrar los primeros Pokémon al cargar
+    showAllPokemon();
+});
+
+export function initPokedex() {
+    document.addEventListener('DOMContentLoaded', async () => {
+        const filters = await getFiltersData();
+        createFilterButtons(filters);
+
+        // Mostrar los primeros Pokémon al cargar
+        showAllPokemon();
+    });
 }
