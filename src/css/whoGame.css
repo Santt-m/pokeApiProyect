@@ -1,0 +1,125 @@
+/* Estilos generales para la sección del juego */
+#whoGame {
+    background-color: #ffcb05; /* Color amarillo de fondo, inspirado en la serie */
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 400px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Título del juego */
+#whoGame h2 {
+    font-family: 'Pokemon Solid', sans-serif; /* Fuente temática, si tienes una disponible */
+    font-size: 2.5rem;
+    color: #2a75bb;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #ff0000;
+}
+
+/* Contenedor de la imagen y los inputs */
+#game-container {
+    margin: 20px 0;
+}
+
+/* Imagen del Pokémon silueteado */
+#pokemon-silhouette {
+    width: 250px;
+    height: 250px;
+    transition: filter 0.5s ease; /* Suavizar el cambio de brillo */
+    animation: silhouette-shake 2s infinite ease-in-out; /* Animación de vibración */
+    margin-bottom: 20px;
+}
+
+/* Estilo para los botones de opción */
+.option-button {
+    background-color: #2a75bb;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.option-button:hover {
+    background-color: #ff0000;
+}
+
+
+/* Animación de vibración estilo juego de TV */
+@keyframes silhouette-shake {
+    0%, 100% { transform: translate(0px, 0px); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(5px, -5px); }
+    60% { transform: translate(-5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+}
+
+/* Input de texto */
+#guess-input {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #2a75bb;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Botón de enviar */
+#submit-guess {
+    background-color: #2a75bb;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submit-guess:hover {
+    background-color: #ff0000;
+}
+
+/* Feedback del resultado */
+#feedback {
+    font-size: 1.5rem;
+    margin-top: 15px;
+    color: #2a75bb;
+    font-weight: bold;
+    animation: feedback-appear 0.5s ease;
+}
+
+/* Animación de entrada para el feedback */
+@keyframes feedback-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Efecto para cuando el Pokémon es revelado */
+#pokemon-silhouette.revealed {
+    animation: reveal-pokemon 0.5s forwards;
+    filter: none;
+}
+
+/* Animación para revelar el Pokémon */
+@keyframes reveal-pokemon {
+    0% {
+        filter: brightness(0);
+        transform: scale(1);
+    }
+    100% {
+        filter: brightness(1);
+        transform: scale(1.1);
+    }
+}

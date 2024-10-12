@@ -1,11 +1,7 @@
-// ./src/js/api.js
-
 // URL base de la PokeAPI
 const BASE_URL = 'https://pokeapi.co/api/v2/';
 
-/**
- * Mapa de íconos por tipo de Pokémon y otros.
- */
+// Mapa de íconos por tipo de Pokémon y otros.
 export const localIcons = {
     normal: '../src/icons/normal.png',
     fighting: '../src/icons/fighting.png',
@@ -30,12 +26,20 @@ export const localIcons = {
     stellar: '../src/icons/stellar.png',
 };
 
-/**
- * Función para obtener todos los Pokémon con paginación.
- * @param {number} limit - Número máximo de Pokémon a obtener.
- * @param {number} offset - Desplazamiento para la paginación.
- * @returns {Promise<Array>} Lista de Pokémon.
- */
+// Función para obtener un Pokémon aleatorio.
+export async function getRandomPokemon() {
+    try {
+        const randomId = Math.floor(Math.random() * 898) + 1;  // 898 es el número de Pokémon en la generación 8
+        const response = await fetch(`${BASE_URL}pokemon/${randomId}`);
+        const pokemon = await response.json();
+        return pokemon;
+    } catch (error) {
+        console.error('Error al obtener Pokémon aleatorio:', error);
+        return null;
+    }
+}
+
+// Función para obtener todos los Pokémon con paginación.
 export async function getAllPokemons(limit = 25, offset = 0) {
     try {
         const response = await fetch(`${BASE_URL}pokemon?limit=${limit}&offset=${offset}`);
@@ -47,11 +51,7 @@ export async function getAllPokemons(limit = 25, offset = 0) {
     }
 }
 
-/**
- * Función para obtener los detalles de un Pokémon específico por su URL.
- * @param {string} pokemonUrl - URL del Pokémon.
- * @returns {Promise<Object|null>} Detalles del Pokémon o null si hay error.
- */
+// Función para obtener los detalles de un Pokémon específico por su URL.
 export async function getPokemonDetails(pokemonUrl) {
     try {
         const response = await fetch(pokemonUrl);
@@ -63,10 +63,7 @@ export async function getPokemonDetails(pokemonUrl) {
     }
 }
 
-/**
- * Función para obtener los tipos, generaciones y hábitats desde la PokeAPI.
- * @returns {Promise<Object>} Objeto con arrays de tipos, generaciones y hábitats.
- */
+// Función para obtener los tipos, generaciones y hábitats desde la PokeAPI.
 export async function getFiltersData() {
     try {
         const [types, generations, habitats] = await Promise.all([
@@ -86,11 +83,7 @@ export async function getFiltersData() {
     }
 }
 
-/**
- * Función para obtener los Pokémon filtrados por generación.
- * @param {number} generationId - ID de la generación.
- * @returns {Promise<Array>} Lista de Pokémon de la generación.
- */
+// Función para obtener los Pokémon filtrados por generación.
 export async function getPokemonsByGeneration(generationId) {
     try {
         const response = await fetch(`${BASE_URL}generation/${generationId}`);
@@ -105,11 +98,7 @@ export async function getPokemonsByGeneration(generationId) {
     }
 }
 
-/**
- * Función para obtener Pokémon por tipo.
- * @param {string} typeName - Nombre del tipo.
- * @returns {Promise<Array>} Lista de Pokémon de ese tipo.
- */
+// Función para obtener Pokémon por tipo.
 export async function getPokemonsByType(typeName) {
     try {
         const response = await fetch(`${BASE_URL}type/${typeName}`);
@@ -124,11 +113,7 @@ export async function getPokemonsByType(typeName) {
     }
 }
 
-/**
- * Función para obtener los Pokémon filtrados por hábitat.
- * @param {string} habitat - Nombre del hábitat.
- * @returns {Promise<Array>} Lista de Pokémon de ese hábitat.
- */
+// Función para obtener los Pokémon filtrados por hábitat.
 export async function getPokemonsByHabitat(habitat) {
     try {
         const response = await fetch(`${BASE_URL}pokemon-habitat/${habitat}`);

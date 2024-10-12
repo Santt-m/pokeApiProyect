@@ -1,6 +1,8 @@
-@import url(./src/css/card.css);
-@import url(./src/css/pokedex.css);
 @import url(./src/css/header.css);
+@import url(./src/css/card.css);
+
+@import url(./src/css/whoGame.css);
+@import url(./src/css/pokedex.css);
 
 @import url(./src/css/modal.css);
 :root {

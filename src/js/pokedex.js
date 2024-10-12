@@ -130,10 +130,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 export function initPokedex() {
     document.addEventListener('DOMContentLoaded', async () => {
-        const filters = await getFiltersData();
+        const section = document.getElementById('pokedex');
+        if (section){
+            const filters = await getFiltersData();
+        
         createFilterButtons(filters);
 
         // Mostrar los primeros Pokémon al cargar
         showAllPokemon();
+        }else{
+            console.log('no section pokedex');
+        }
+        
     });
 }
