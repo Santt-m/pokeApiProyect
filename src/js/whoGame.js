@@ -1,34 +1,46 @@
-import { getRandomPokemon } from './api.js';
+// src/js/whoGame.js
+
+import { getRandomPokemon, getTwoRandomPokemons } from './api.js';
+import Modal from './modal.js'; 
 
 let correctPokemon = null;
+let score = 0; // Puntaje del jugador
+let streak = 0; // Racha de victorias
+let timer = null; // Temporizador
+
+// Variables de configuración
+const GAME_DURATION = 10; // Duración del juego en segundos por Pokémon
+const TIMEOUT_SCORE_PENALTY = 1; // Penalización por no responder a tiempo
 
 // Función para inicializar el juego
 export async function initWhoGame() {
     const pokemonImage = document.getElementById('pokemon-silhouette');
     const optionsContainer = document.getElementById('options-container');
     const feedback = document.getElementById('feedback');
-    
-    // Iniciar el juego automáticamente
-    await startNewGame(pokemonImage, optionsContainer, feedback);
+    const timerDisplay = document.getElementById('timer-display');
+
+    if (!pokemonImage || !optionsContainer || !feedback || !timerDisplay) {
+        console.warn('El contenedor del juego "¿Quién es este Pokémon?" no está presente en esta página.');
+        return;
+    }
+
+    await startNewGame(pokemonImage, optionsContainer, feedback, timerDisplay);
 }
 
 // Función para empezar un nuevo juego
-async function startNewGame(pokemonImage, optionsContainer, feedback) {
+async function startNewGame(pokemonImage, optionsContainer, feedback, timerDisplay) {
     try {
-        // Obtener un Pokémon aleatorio
         const pokemon = await getRandomPokemon();
         correctPokemon = pokemon;
 
-        // Mostrar la silueta del Pokémon
-        pokemonImage.src = pokemon.sprites.front_default; // Usar la imagen frontal
+        pokemonImage.src = pokemon.sprites.front_default;
         pokemonImage.classList.remove('revealed');
-        pokemonImage.style.filter = 'brightness(0)'; // Oscurecer para hacer la silueta
+        pokemonImage.style.filter = 'brightness(0)';
 
-        // Generar opciones de respuesta
         await generateOptions(pokemon, optionsContainer);
 
-        // Limpiar el feedback
         feedback.textContent = '';
+        startTimer(timerDisplay, pokemonImage, optionsContainer, feedback); // Iniciar el temporizador
     } catch (error) {
         feedback.textContent = 'Error al cargar el Pokémon. Inténtalo de nuevo más tarde.';
         feedback.style.color = 'red';
@@ -37,55 +49,76 @@ async function startNewGame(pokemonImage, optionsContainer, feedback) {
 
 // Función para generar las opciones del juego
 async function generateOptions(correctPokemon, container) {
-    container.innerHTML = ''; // Limpiar opciones previas
+    container.innerHTML = ''; 
     const randomOptions = [correctPokemon.name];
 
-    // Obtener dos Pokémon adicionales diferentes al correcto
     const additionalPokemons = await getTwoRandomPokemons(correctPokemon.name);
     randomOptions.push(...additionalPokemons);
 
-    // Mezclar las opciones para que no esté siempre en el mismo orden
     randomOptions.sort(() => Math.random() - 0.5);
 
-    // Crear botones de opción
     randomOptions.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
         button.classList.add('option-button');
-        button.addEventListener('click', () => checkAnswer(option));
+        button.addEventListener('click', () => checkAnswer(option, container)); // Comprobar la respuesta
         container.appendChild(button);
     });
 }
 
-// Función para obtener 2 Pokémon aleatorios diferentes al correcto
-async function getTwoRandomPokemons(correctPokemonName) {
-    const pokemons = [];
-    while (pokemons.length < 2) {
-        const randomPokemon = await getRandomPokemon();
-        if (randomPokemon.name !== correctPokemonName && !pokemons.includes(randomPokemon.name)) {
-            pokemons.push(randomPokemon.name);
+// Función para iniciar el temporizador
+function startTimer(timerDisplay, pokemonImage, optionsContainer, feedback) {
+    let timeLeft = GAME_DURATION;
+    timerDisplay.textContent = `${timeLeft} seg`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `${timeLeft} seg`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            feedback.textContent = `¡Tiempo agotado! El Pokémon era ${correctPokemon.name}`;
+            feedback.classList.add('incorrect'); // Agregar clase incorrecta
+            streak = 0; // Reiniciar la racha
+            score -= TIMEOUT_SCORE_PENALTY; // Penalización por no responder a tiempo
+            revealPokemon(pokemonImage);
+            setTimeout(() => startNewGame(pokemonImage, optionsContainer, feedback, timerDisplay), 2000); // Cargar nuevo Pokémon
         }
-    }
-    return pokemons;
+    }, 1000);
 }
 
 // Función para comprobar la respuesta del usuario
-function checkAnswer(selectedOption) {
+function checkAnswer(selectedOption, optionsContainer) {
+    clearInterval(timer); // Detener el temporizador
     const pokemonImage = document.getElementById('pokemon-silhouette');
     const feedback = document.getElementById('feedback');
-    
+    const timerDisplay = document.getElementById('timer-display'); // Asegúrate de definir timerDisplay aquí
+
     if (selectedOption === correctPokemon.name) {
-        // Respuesta correcta
-        pokemonImage.classList.add('revealed'); // Revelar Pokémon
-        pokemonImage.style.filter = 'brightness(1)'; // Mostrar el Pokémon
+        pokemonImage.classList.add('revealed');
+        pokemonImage.style.filter = 'brightness(1)'; // Mostrar la imagen completa
         feedback.textContent = '¡Correcto!';
-        feedback.style.color = 'green';
+        feedback.classList.remove('incorrect');
+        feedback.classList.add('correct');
+        score++; // Aumentar el puntaje
+        streak++; // Aumentar la racha
+        setTimeout(() => startNewGame(pokemonImage, optionsContainer, feedback, timerDisplay), 2000); // Cargar nuevo Pokémon
     } else {
-        // Respuesta incorrecta
-        feedback.textContent = `Incorrecto. El Pokémon es ${correctPokemon.name}`;
-        feedback.style.color = 'red';
+        feedback.textContent = `¡Incorrecto! El Pokémon era ${correctPokemon.name}`;
+        feedback.classList.add('incorrect'); // Agregar clase incorrecta
+        streak = 0; // Reiniciar la racha
+        revealPokemon(pokemonImage);
+        setTimeout(() => startNewGame(pokemonImage, optionsContainer, feedback, timerDisplay), 2000); // Cargar nuevo Pokémon
     }
 }
 
-// Inicializar el juego cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initWhoGame);
+// Función para revelar el Pokémon
+function revealPokemon(pokemonImage) {
+    pokemonImage.classList.add('revealed');
+    pokemonImage.style.filter = 'brightness(1)'; // Mostrar la imagen completa
+}
+
+// Evento que inicializa el juego cuando el documento está listo
+document.addEventListener('DOMContentLoaded', () => {
+    initWhoGame();
+});

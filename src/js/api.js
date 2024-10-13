@@ -1,3 +1,5 @@
+// ./src/js/api.js
+
 // URL base de la PokeAPI
 const BASE_URL = 'https://pokeapi.co/api/v2/';
 
@@ -29,34 +31,52 @@ export const localIcons = {
 // Función para obtener un Pokémon aleatorio.
 export async function getRandomPokemon() {
     try {
-        const randomId = Math.floor(Math.random() * 898) + 1;  // 898 es el número de Pokémon en la generación 8
+        const randomId = Math.floor(Math.random() * 898) + 1; // 898 es el número de Pokémon en la generación 8
         const response = await fetch(`${BASE_URL}pokemon/${randomId}`);
-        const pokemon = await response.json();
-        return pokemon;
+        return await response.json();
     } catch (error) {
         console.error('Error al obtener Pokémon aleatorio:', error);
         return null;
     }
 }
+// Función para obtener los datos completos de un Pokémon desde su URL
+export async function fetchPokemonData(url) {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+
+// Función para obtener la lista inicial de Pokémons
+export async function fetchPokemons() {
+    const response = await fetch(`${BASE_URL}pokemon?limit=120`);
+    const data = await response.json();
+    return data;
+}
+// Función para obtener dos Pokémon aleatorios que no sean el correcto
+export async function getTwoRandomPokemons(correctPokemonName) {
+    const randomPokemons = [];
+    while (randomPokemons.length < 2) {
+        const randomId = Math.floor(Math.random() * 898) + 1;
+        const pokemon = await getPokemonDetails(`${BASE_URL}pokemon/${randomId}`);
+        if (pokemon && pokemon.name !== correctPokemonName && !randomPokemons.includes(pokemon.name)) {
+            randomPokemons.push(pokemon.name);
+        }
+    }
+    return randomPokemons;
+}
 
 // Función para obtener todos los Pokémon con paginación.
-export async function getAllPokemons(limit = 25, offset = 0) {
-    try {
-        const response = await fetch(`${BASE_URL}pokemon?limit=${limit}&offset=${offset}`);
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error("Error al obtener la lista de Pokémon:", error);
-        return [];
-    }
+export async function getAllPokemons(offset = 0, limit = 20) {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return await response.json();
 }
 
 // Función para obtener los detalles de un Pokémon específico por su URL.
 export async function getPokemonDetails(pokemonUrl) {
     try {
         const response = await fetch(pokemonUrl);
-        const pokemonData = await response.json();
-        return pokemonData;
+        return await response.json();
     } catch (error) {
         console.error("Error al obtener los detalles del Pokémon:", error);
         return null;
@@ -71,7 +91,6 @@ export async function getFiltersData() {
             fetch(`${BASE_URL}generation`).then(res => res.json()),
             fetch(`${BASE_URL}pokemon-habitat`).then(res => res.json())
         ]);
-
         return {
             types: types.results,
             generations: generations.results,

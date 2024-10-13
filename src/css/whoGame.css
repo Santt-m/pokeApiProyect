@@ -1,125 +1,114 @@
-/* Estilos generales para la sección del juego */
+/* .src/css/style.css */
+
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif; /* Fuente general */
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333; /* Color del texto */
+}
+
+/* Estilo de la sección del juego */
 #whoGame {
-    background-color: #ffcb05; /* Color amarillo de fondo, inspirado en la serie */
-    border-radius: 10px;
-    padding: 20px;
     text-align: center;
     margin: 20px auto;
-    max-width: 400px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra del contenedor */
+    max-width: 600px; /* Ancho máximo */
+    position: relative; /* Para el fondo animado */
 }
 
-/* Título del juego */
-#whoGame h2 {
-    font-family: 'Pokemon Solid', sans-serif; /* Fuente temática, si tienes una disponible */
-    font-size: 2.5rem;
-    color: #2a75bb;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 0 #ff0000;
+/* Animación de fondo */
+#whoGame::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../img/whoGame_background.webp');
+    background-position: 50% 50%;
+    background-size: cover; /* Cubrir toda el área */
+    opacity: 0.1; /* Opacidad */
+    z-index: 0; /* Detrás de los otros elementos */
+    animation: pulse 5s infinite; /* Animación de pulsación */
 }
 
-/* Contenedor de la imagen y los inputs */
-#game-container {
-    margin: 20px 0;
+@keyframes pulse {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0.1; }
 }
 
-/* Imagen del Pokémon silueteado */
-#pokemon-silhouette {
-    width: 250px;
-    height: 250px;
-    transition: filter 0.5s ease; /* Suavizar el cambio de brillo */
-    animation: silhouette-shake 2s infinite ease-in-out; /* Animación de vibración */
-    margin-bottom: 20px;
+h2 {
+    font-size: 2em;
+    color: #ffcc00; /* Color amarillo Pokémon */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra del texto */
+    margin-bottom: 20px; /* Espacio inferior */
 }
 
-/* Estilo para los botones de opción */
+/* Estilo de la imagen del Pokémon */
+.pokemon-image {
+    width: 200px; /* Ajusta el tamaño de la imagen */
+    height: auto;
+    filter: brightness(0); /* Comienza como silueta */
+    transition: filter 0.5s ease, transform 0.3s; /* Transición suave */
+    margin-bottom: 15px; /* Espacio inferior */
+}
+
+.pokemon-image.revealed {
+    transform: scale(1.1); /* Animación de aumento */
+}
+
+/* Estilo del temporizador */
+#timer-display {
+    font-size: 1.5em; /* Tamaño de fuente */
+    margin: 15px 0; /* Margen */
+    color: #e63946; /* Color rojo */
+}
+
+/* Estilo de los botones de opción */
+.options-container {
+    margin-top: 20px;
+}
+
 .option-button {
-    background-color: #2a75bb;
-    color: white;
+    margin: 5px;
     padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 5px;
-    transition: background-color 0.3s;
+    background-color: #007bff; /* Color azul */
+    color: white;
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones */
+    position: relative; /* Para el efecto de sombra */
+    z-index: 1; /* Asegurar que esté encima */
 }
 
 .option-button:hover {
-    background-color: #ff0000;
+    background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Sube un poco al pasar el ratón */
 }
 
-
-/* Animación de vibración estilo juego de TV */
-@keyframes silhouette-shake {
-    0%, 100% { transform: translate(0px, 0px); }
-    20% { transform: translate(-5px, 5px); }
-    40% { transform: translate(5px, -5px); }
-    60% { transform: translate(-5px, 5px); }
-    80% { transform: translate(5px, -5px); }
+/* Estilo de los mensajes de retroalimentación */
+.feedback-message {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold; /* Texto en negrita */
 }
 
-/* Input de texto */
-#guess-input {
-    width: 80%;
-    padding: 10px;
-    border: 2px solid #2a75bb;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.feedback-message.correct {
+    color: #2ecc71; /* Verde para correcto */
 }
 
-/* Botón de enviar */
-#submit-guess {
-    background-color: #2a75bb;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.feedback-message.incorrect {
+    color: #e74c3c; /* Rojo para incorrecto */
 }
 
-#submit-guess:hover {
-    background-color: #ff0000;
-}
-
-/* Feedback del resultado */
-#feedback {
-    font-size: 1.5rem;
-    margin-top: 15px;
-    color: #2a75bb;
-    font-weight: bold;
-    animation: feedback-appear 0.5s ease;
-}
-
-/* Animación de entrada para el feedback */
-@keyframes feedback-appear {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Efecto para cuando el Pokémon es revelado */
-#pokemon-silhouette.revealed {
-    animation: reveal-pokemon 0.5s forwards;
-    filter: none;
-}
-
-/* Animación para revelar el Pokémon */
-@keyframes reveal-pokemon {
-    0% {
-        filter: brightness(0);
-        transform: scale(1);
-    }
-    100% {
-        filter: brightness(1);
-        transform: scale(1.1);
-    }
+/* Estilo del contenedor */
+#pokemon-container {
+    position: relative; /* Para los elementos absolutos */
+    margin-bottom: 20px; /* Espacio inferior */
 }

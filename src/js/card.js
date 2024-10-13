@@ -1,51 +1,50 @@
 // ./src/js/card.js
-
 import { localIcons } from './api.js';
 
-// Otros íconos locales (mantienen la estructura previa)
-const ICON_HEALTH = '../src/icons/health.png';
-const ICON_ATTACK = '../src/icons/attack.png';
-const ICON_DEFENSE = '../src/icons/defense.png';
-const ICON_SPEED = '../src/icons/speed.png';
-const ICON_HEIGHT = "../src/icons/height.png";
-const ICON_WEIGHT = "../src/icons/weight.png";
-const ICON_XP = "../src/icons/xp.png";
-
-// funcion para obtener el icono
-function getTypeIcon(type) {
-    return localIcons[type] || localIcons.unknown;
-}
+// Otros íconos locales
+const ICONS = {
+    health: '../src/icons/health.png',
+    attack: '../src/icons/attack.png',
+    defense: '../src/icons/defense.png',
+    speed: '../src/icons/speed.png',
+    height: "../src/icons/height.png",
+    weight: "../src/icons/weight.png",
+    xp: "../src/icons/xp.png"
+};
 
 // Función para crear la carta de un Pokémon.
-
 export function createPokemonCard(pokemon) {
+    const { id, name, types, stats, height, weight, base_experience, sprites } = pokemon;
+
     const card = document.createElement('div');
-    card.className = `cardPokemon type-${pokemon.types[0].type.name}`;
+    card.className = `cardPokemon type-${types[0].type.name}`;
 
-    const pokemonSprite = pokemon.sprites.front_default || '../src/icons/placeholder.png';
+    // URL para los sprites SVG de Dream World y fallback a PNG si no está disponible
+    const dreamWorldSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+    const fallbackSpriteUrl = sprites?.front_default || localIcons.unknown;
 
-    const typesList = pokemon.types.map(t => `
+    // Usar localIcons para obtener el ícono del tipo
+    const typesList = types.map(t => `
         <li class="type-${t.type.name}">
-            <img src="${getTypeIcon(t.type.name)}" alt="${t.type.name} Icon">
+            <img src="${localIcons[t.type.name] || localIcons.unknown}" alt="${t.type.name} Icon">
             <p>${t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)}</p>
         </li>
     `).join('');
 
-    const healthStat = pokemon.stats[0]?.base_stat || 'N/A';
-    const attackStat = pokemon.stats[1]?.base_stat || 'N/A';
-    const defenseStat = pokemon.stats[2]?.base_stat || 'N/A';
-    const speedStat = pokemon.stats[5]?.base_stat || 'N/A';
+    const [healthStat = 'N/A', attackStat = 'N/A', defenseStat = 'N/A', , , speedStat = 'N/A'] = stats.map(stat => stat.base_stat);
 
-    const pokemonHeight = pokemon.height ? `${pokemon.height * 10} cm` : 'N/A';
-    const pokemonWeight = pokemon.weight ? `${pokemon.weight / 10} kg` : 'N/A';
-    const baseXP = pokemon.base_experience || 'N/A';
+    const pokemonHeight = height ? `${height * 10} cm` : 'N/A';
+    const pokemonWeight = weight ? `${weight / 10} kg` : 'N/A';
+    const baseXP = base_experience || 'N/A';
 
     card.innerHTML = `
         <div class="cardPokemon_head">
-            <p class="cardPokemon_head_ID">#${pokemon.id}</p>
-            <p class="cardPokemon_head_Name">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+            <div class="cardPokemon_head_ID">
+                <img src="${fallbackSpriteUrl}" alt="${pokemon.name} sprite" class="cardPokemon_head_ID_logo" onerror="this.onerror=null;this.src='${localIcons.unknown}'">
+            </div>
+            <p class="cardPokemon_head_Name">${name.charAt(0).toUpperCase() + name.slice(1)}</p>
             <div class="cardPokemon_head_health">
-                <img src="${ICON_HEALTH}" alt="Health Icon"> <p>${healthStat}</p>
+                <img src="${ICONS.health}" alt="Health Icon"> <p>${healthStat}</p>
             </div>
             <ul class="cardPokemon_head_types">
                 ${typesList}
@@ -54,17 +53,17 @@ export function createPokemonCard(pokemon) {
 
         <div class="cardPokemon_body">
             <div class="cardPokemon_cont">
-                <img src="${pokemonSprite}" alt="${pokemon.name}">
+                <img class="cardPokemon_cont_logo" src="${dreamWorldSpriteUrl}" alt="${name} sprite" onerror="this.onerror=null;this.src='${fallbackSpriteUrl}'">
                 <ul>
-                    <li><img src="${ICON_HEIGHT}" alt="Height Icon"><p>${pokemonHeight}</p></li>
-                    <li><img src="${ICON_WEIGHT}" alt="Weight Icon"><p>${pokemonWeight}</p></li>
-                    <li><img src="${ICON_XP}" alt="XP Icon"><p>${baseXP} XP</p></li>
+                    <li><img src="${ICONS.height}" alt="Height Icon"><p>${pokemonHeight}</p></li>
+                    <li><img src="${ICONS.weight}" alt="Weight Icon"><p>${pokemonWeight}</p></li>
+                    <li><img src="${ICONS.xp}" alt="XP Icon"><p>${baseXP} XP</p></li>
                 </ul>
             </div>
             <ul class="cardPokemon_cont_stats">
-                <li><img src="${ICON_ATTACK}" alt="Attack Icon"><p>${attackStat}</p></li>
-                <li><img src="${ICON_DEFENSE}" alt="Defense Icon"><p>${defenseStat}</p></li>
-                <li><img src="${ICON_SPEED}" alt="Speed Icon"><p>${speedStat}</p></li>
+                <li><img src="${ICONS.attack}" alt="Attack Icon"><p>${attackStat}</p></li>
+                <li><img src="${ICONS.defense}" alt="Defense Icon"><p>${defenseStat}</p></li>
+                <li><img src="${ICONS.speed}" alt="Speed Icon"><p>${speedStat}</p></li>
             </ul>
         </div>
     `;
