@@ -30,14 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const { startGame, startBattle } = await import('./src/js/cardGame/game.js');
             startGame();  // Inicia el juego
-    
-            // Asegúrate de que el botón exista antes de agregar el event listener
-            const battleButton = document.getElementById('battleButton');
-            if (battleButton) {
-                battleButton.addEventListener('click', startBattle);  // Botón de batalla
-            } else {
-                console.error('El botón de batalla no se encontró');
-            }
         } catch (error) {
             console.error('Error al cargar el módulo del juego de cartas:', error);
         }

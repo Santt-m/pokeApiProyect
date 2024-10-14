@@ -25,11 +25,37 @@
     </header>
     <main>
         <section id="cardGame">
-            <h2>Juego de Cartas</h2>
-            <div id="player1-cards" class="card-container"></div>
-            <div id="player2-cards" class="card-container"></div>
-            <button id="battleButton">Luchar</button>
+            <div id="gameBanner">
+                <div id="player1Banner">
+                    <h2>Player 1</h2>
+                    <p id="player1Points">0</p>
+                </div>
+                <div id="player2Banner">
+                    <h2>Player 2</h2>
+                    <p id="player2Points">0</p>
+                </div>
+            </div>
+            <div id="gameContainer">
+                <ol id="player1-cards"></ol>
+                <div id="battleContainer">
+                    <div id="player1Card">
+                        <img src="" alt="Carta del jugador 1" id="player1CardImage">
+                    </div>
+                    <div id="battleGame">
+                        <h3>(jugador que ganó)</h3>
+                        (tabla de ataque, defensa, vida, etc)
+                        el cálculo de la batalla.
+                    </div>
+                    <div id="player2Card">
+                        <img src="" alt="Carta del jugador 2" id="player2CardImage">
+                    </div>
+                    <button id="gameButton">Jugar</button>
+                </div>
+                <ol id="player2-cards"></ol>
+            </div>
         </section>
+        
+
     </main>
     <script type="module" src="app.js"></script>
 </body>

@@ -1,8 +1,12 @@
-import { fetchPokemons, fetchPokemonData, localIcons } from '../api.js';
-import { createPokemonCard } from '../card.js';
+import { fetchPokemons, fetchPokemonData } from '../api.js'; 
+import { createPokemonCard } from '../card.js'; 
 
-// Función para repartir cartas
-export async function dealCards(pokemons, numberOfCards) {
+let player1Points = 0;
+let player2Points = 0;
+const totalRounds = 3; 
+
+// Función para repartir cartas a los jugadores
+async function dealCards(pokemons, numberOfCards) {
     const cards = [];
     while (cards.length < numberOfCards) {
         const randomIndex = Math.floor(Math.random() * pokemons.results.length);
@@ -13,88 +17,142 @@ export async function dealCards(pokemons, numberOfCards) {
     return cards;
 }
 
-// Renderizar cartas del jugador
+// Función para renderizar cartas de cada jugador
 function renderPlayerCards(player, container) {
-    container.innerHTML = ''; // Limpiamos cualquier carta anterior
+    if (!container) {
+        console.error(`El contenedor para ${player.name} no existe.`);
+        return; 
+    }
+    
+    container.innerHTML = ''; // Limpiar el contenedor
+    player.cards.forEach((pokemon, index) => {
+        const card = createPokemonCard(pokemon);
+        const listItem = document.createElement('li');
+        listItem.appendChild(card);
+        container.appendChild(listItem);
 
-    player.cards.forEach((pokemon) => {
-        const card = createPokemonCard(pokemon); // Usamos la función de card.js
-        container.appendChild(card); // Agregamos la carta al contenedor
-    });
-
-    // Agregar evento de selección a cada carta
-    const cardElements = container.querySelectorAll('.cardPokemon');
-    cardElements.forEach(card => {
-        card.addEventListener('click', (event) => {
-            const selectedCard = event.currentTarget;
-            selectedCard.classList.toggle('selected'); // Alterna la clase 'selected' al hacer clic
+        // Evento para seleccionar una carta y moverla al área de batalla
+        card.addEventListener('click', () => {
+            moveCardToBattle(player, index);
         });
     });
 }
 
-// Iniciar juego
+// Función para mover la carta seleccionada al área de batalla
+function moveCardToBattle(player, cardIndex) {
+    const battleCardContainer = player.name === 'Player 1' ? document.getElementById('player1Card') : document.getElementById('player2Card');
+    const battleImage = player.name === 'Player 1' ? document.getElementById('player1CardImage') : document.getElementById('player2CardImage');
+
+    if (!battleCardContainer || !battleImage) {
+        console.error(`El contenedor de batalla para ${player.name} no existe.`);
+        return;
+    }
+
+    const selectedCard = player.cards[cardIndex];
+
+    // Mover carta actual a la batalla
+    battleImage.src = selectedCard.sprites.front_default; 
+    player.selectedCard = selectedCard; 
+    player.cards.splice(cardIndex, 1); // Remover la carta seleccionada del mazo
+
+    // Actualizar las cartas mostradas
+    renderPlayerCards(player, document.getElementById(`${player.name.toLowerCase()}-cards`));
+}
+
+// Función para iniciar el juego
 export async function startGame() {
     try {
         const pokemons = await fetchPokemons();
-        const player1Cards = await dealCards(pokemons, 3); // Cartas para jugador 1
-        const player2Cards = await dealCards(pokemons, 3); // Cartas para jugador 2
+        const player1Cards = await dealCards(pokemons, totalRounds); 
+        const player2Cards = await dealCards(pokemons, totalRounds); 
 
-        // Crear jugadores
-        const player1 = { name: 'Player 1', cards: player1Cards };
-        const player2 = { name: 'Player 2', cards: player2Cards };
+        const player1 = { name: 'Player 1', cards: player1Cards, selectedCard: null };
+        const player2 = { name: 'Player 2', cards: player2Cards, selectedCard: null };
 
-        // Renderizar las cartas en la pantalla
         renderPlayerCards(player1, document.getElementById('player1-cards'));
         renderPlayerCards(player2, document.getElementById('player2-cards'));
+
+        // Guardar los jugadores para la batalla
+        window.players = { player1, player2 };
+        
+        // Habilitar el botón de jugar
+        document.getElementById('gameButton').addEventListener('click', startBattle);
 
     } catch (error) {
         console.error('Error al iniciar el juego:', error);
     }
 }
 
-// Función para iniciar la batalla
+// Función para realizar la batalla
 export function startBattle() {
-    const selectedCards1 = document.querySelectorAll('#player1-cards .selected');
-    const selectedCards2 = document.querySelectorAll('#player2-cards .selected');
+    const { player1, player2 } = window.players;
 
-    if (selectedCards1.length === 0 || selectedCards2.length === 0) {
-        alert('Por favor, selecciona al menos una carta de cada jugador.');
+    if (!player1.selectedCard || !player2.selectedCard) {
+        alert('Ambos jugadores deben seleccionar una carta.');
         return;
     }
 
-    // Tomamos las cartas seleccionadas
-    const player1Card = selectedCards1[0]; // Solo tomaremos la primera seleccionada para simplificar
-    const player2Card = selectedCards2[0];
+    // Obtener estadísticas de las cartas seleccionadas
+    const player1Attack = player1.selectedCard.stats[1].base_stat;
+    const player2Defense = player2.selectedCard.stats[2].base_stat;
 
-    // Obtener estadísticas de ataque y defensa
-    const player1Attack = parseInt(player1Card.querySelector('.cardPokemon_cont_stats li img[alt="Attack Icon"]').nextElementSibling.textContent);
-    const player1Defense = parseInt(player2Card.querySelector('.cardPokemon_cont_stats li img[alt="Defense Icon"]').nextElementSibling.textContent);
-    
-    const player2Attack = parseInt(player2Card.querySelector('.cardPokemon_cont_stats li img[alt="Attack Icon"]').nextElementSibling.textContent);
-    const player2Defense = parseInt(player1Card.querySelector('.cardPokemon_cont_stats li img[alt="Defense Icon"]').nextElementSibling.textContent);
-    
-    // Calcular daños
-    const player1Damage = player1Attack - player2Defense;
-    const player2Damage = player2Attack - player1Defense;
+    const player2Attack = player2.selectedCard.stats[1].base_stat;
+    const player1Defense = player1.selectedCard.stats[2].base_stat;
 
-    const player1Health = parseInt(player1Card.querySelector('.cardPokemon_head_health p').textContent);
-    const player2Health = parseInt(player2Card.querySelector('.cardPokemon_head_health p').textContent);
-    
-    // Actualizar la salud
-    const newPlayer1Health = Math.max(0, player1Health - player2Damage);
-    const newPlayer2Health = Math.max(0, player2Health - player1Damage);
+    // Calcular daño
+    const player1Damage = Math.max(0, player1Attack - player2Defense);
+    const player2Damage = Math.max(0, player2Attack - player1Defense);
 
     // Mostrar resultados
+    const battleGame = document.getElementById('battleGame');
     let resultMessage = '';
-    if (newPlayer1Health === 0 && newPlayer2Health === 0) {
-        resultMessage = 'Ambos Pokémon han sido derrotados.';
-    } else if (newPlayer1Health === 0) {
-        resultMessage = '¡El Pokémon de Player 2 ha ganado!';
-    } else if (newPlayer2Health === 0) {
-        resultMessage = '¡El Pokémon de Player 1 ha ganado!';
+
+    if (player1Damage > player2Damage) {
+        player1Points++;
+        resultMessage = `Player 1 gana esta ronda con ${player1Damage} puntos de daño contra ${player2Damage} de Player 2.`;
+        removeLosingCard(player2);
+    } else if (player2Damage > player1Damage) {
+        player2Points++;
+        resultMessage = `Player 2 gana esta ronda con ${player2Damage} puntos de daño contra ${player1Damage} de Player 1.`;
+        removeLosingCard(player1);
     } else {
-        resultMessage = `Salud restante: Player 1: ${newPlayer1Health}, Player 2: ${newPlayer2Health}`;
+        resultMessage = `Empate, ambos jugadores causaron el mismo daño (${player1Damage}).`;
     }
 
-    alert(resultMessage); // Mostrar el resultado
+    // Actualizar puntos en el banner
+    document.getElementById('player1Points').textContent = player1Points;
+    document.getElementById('player2Points').textContent = player2Points;
+
+    // Mostrar resultado de la batalla
+    battleGame.innerHTML = `<h3>Resultado: ${resultMessage}</h3>
+                            <p>Player 1: Ataque = ${player1Attack}, Defensa = ${player1Defense}</p>
+                            <p>Player 2: Ataque = ${player2Attack}, Defensa = ${player2Defense}</p>`;
+
+    // Revisar si el juego ha terminado
+    checkForWinner();
+}
+
+// Función para remover la carta que perdió
+function removeLosingCard(losingPlayer) {
+    losingPlayer.selectedCard = null; // Remover la carta seleccionada
+    renderPlayerCards(losingPlayer, document.getElementById(`${losingPlayer.name.toLowerCase()}-cards`)); // Actualizar cartas
+}
+
+// Función para revisar si se han jugado todas las rondas y determinar un ganador
+function checkForWinner() {
+    const { player1, player2 } = window.players;
+
+    if (player1.cards.length === 0 && player2.cards.length === 0) {
+        let winner = '';
+
+        if (player1Points > player2Points) {
+            winner = 'Player 1 gana el juego!';
+        } else if (player2Points > player1Points) {
+            winner = 'Player 2 gana el juego!';
+        } else {
+            winner = 'El juego terminó en empate!';
+        }
+
+        alert(winner);
+    }
 }
