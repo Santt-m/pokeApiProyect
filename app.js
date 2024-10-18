@@ -2,6 +2,8 @@ import "./src/js/header.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     const pokedexSection = document.getElementById('pokedex');
+
+    const findPokemon    = document.getElementById('pokemonFinder');
     const whoGameSection = document.getElementById('whoGame');
     const cardGameSection = document.getElementById('cardGame');
 
@@ -14,6 +16,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error al cargar el módulo de la Pokédex:', error);
         }
     }
+    
+    // cargamos el script de findPokemon solo si existe la sección
+    if (findPokemon) {
+        try {
+            const  { initFindPokemon } = await import('./src/js/findPokemon.js');
+            initFindPokemon();
+        } catch (error) {
+            console.error('Error al cargar el módulo de findPokemon:', error);
+        }
+    }
+
 
     // Cargamos el script del juego Who's That Pokemon solo si existe la sección
     if (whoGameSection) {

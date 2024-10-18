@@ -41,7 +41,7 @@ body {
     100% { opacity: 0.1; }
 }
 
-h2 {
+#whoGame h2 {
     font-size: 2em;
     color: #ffcc00; /* Color amarillo Pokémon */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra del texto */
