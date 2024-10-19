@@ -1,12 +1,23 @@
 #cardGame{
     width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#gameBanner {
+#gameBanner {    
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
-    background-color: #f5f5f5;
-    padding: 10px;
+
+    background-color:var(--std--backgroundColor);
+    border-radius: var(--std-borderRadius);
+    box-shadow: var(--std-box-shadow);
+
+    
 }
 
 #gameBanner div {
@@ -24,6 +35,7 @@
 
 #player1-cards, #player2-cards{
     width: 100%;
+    padding: 15px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -34,14 +46,33 @@
 #battleContainer{
     width: 100%;
     height: 20vh;
+    padding: 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-}
 
+    background-color:var(--std--backgroundColor);
+    border-radius: var(--std-borderRadius);
+    box-shadow: var(--std-box-shadow);
+}
+#battleContainer button{
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#battleContainer button:hover{
+    background-color: #3e8e41;  
+}   
 #battleGame{
     width: 50%;
 

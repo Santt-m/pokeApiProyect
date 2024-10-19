@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santt | Inicio </title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <title>Santt | Inicio </title>
 </head>
 <body>
     <header>
-        <a class="headerLogo" href="#"><img src="./src/img/logo.jpeg" alt="logo de la empresa"></a>
+        <a class="headerLogo" href="#"><img src="./src/img/logo.png" alt="logo pokemon"></a>
 
         <nav>
             <a href="./index.html">Inicio</a>
@@ -24,25 +25,59 @@
         </div>
     </header>
     <main>
+        <section id="pokemonFinder">
+            <h2>Busca un pokemon !</h2>
+            <div class="input-container">
+                <input type="text" id="pokemonNumber" placeholder="Escribe el ID o nombre de Pokémon" autocomplete="on">
+                <button id="searchButton"><img src="./src/img/seach.svg" alt="seach icon">Buscar Pokémon</button>
+            </div>
+            <div id="resultContainer"></div>
+        </section>
+        <section id="weatherSection">
+            <h2>El clima</h2>
+            <h3>porque yo se que querias saberlo</h3>
+            <div class="weather-search">
+                <input type="text" id="cityInput" placeholder="Search for a city" autocomplete="off">
+                <div id="autocomplete-list" class="autocomplete-items"></div>
+            </div>
+            
+            <div id="weatherResult">
+                <div id="currentWeather">
+                    <h3>Clima Ahora</h3>
+                    <img id="weatherIcon" src="" alt="Weather Icon" style="display: none;">
+                    <ol>
+                        <li id="currentCity"></li>
+                        <li id="currentTemp"></li>
+                        <li id="currentCondition"></li>
+                    </ol>
+                </div>
+                <div id="forecastWeather">
+                    <h3>Pronostico a 7 dias</h3>
+                    <ul id="forecastList"></ul>
+                </div>
+            </div>
+        </section>
+        
+        
         <section id="whoGame">
             <h2>¿Quién es este Pokémon?</h2>
             <div id="pokemon-container">
-                <img id="pokemon-silhouette" src="" alt="Silueta del Pokémon" class="pokemon-image">
+                <img id="pokemon-silhouette" src="" alt="Cual es este pokemon" class="pokemon-image">
                 <div id="timer-display"></div>
                 <div id="feedback" class="feedback-message"></div>
             </div>
             <div id="options-container" class="options-container"></div>
         </section>
-        <section id="pokemonFinder">
-            <h2>Pokémon Finder</h2>
-            <div class="input-container">
-                <input type="number" id="pokemonNumber" placeholder="Enter Pokémon ID" min="1">
-                <button id="searchButton">Search Pokémon</button>
-            </div>
-            <div id="resultContainer"></div>
-        </section>
     </main>
-
+    <footer>
+        <div class="footer-content">
+            <p>Creado por Santt</p>
+            <p>2024</p>
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Santt-m/pokeApiProyect"><img src="./src/icons/github-dark.svg" alt="Github icon">Github</a>
+        </div>
+    </footer>
     <script type="module" src="app.js"></script>
 </body>
 </html>

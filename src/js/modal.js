@@ -1,5 +1,31 @@
 // ./src/js/modal.js
 
+/* 
+
+EJEMPLO:
+
+import modal 
+
+const modal = new Modal({
+  title: "Título del Modal",
+  content: "Contenido del Modal",
+  buttonText: "Cerrar",
+  type: "success",
+});
+
+modal.createModal();
+
+
+
+
+
+
+*/
+
+
+
+
+
 class Modal {
   constructor(options) {
     this.options = options;

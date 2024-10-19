@@ -6,7 +6,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const findPokemon    = document.getElementById('pokemonFinder');
     const whoGameSection = document.getElementById('whoGame');
     const cardGameSection = document.getElementById('cardGame');
+    const weatherSection = document.getElementById('weatherSection');
 
+
+
+    // cargamos el script de weather solo si existe la sección
+    if (weatherSection) {
+        try {
+            const { initWeather } = await import('./src/js/weather.js');
+            initWeather();
+        } catch (error) {
+            console.error('Error al cargar el módulo de weather:', error);
+        }
+    }
     // Cargamos el script de la Pokédex solo si existe la sección
     if (pokedexSection) {
         try {

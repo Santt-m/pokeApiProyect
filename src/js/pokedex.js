@@ -15,7 +15,6 @@ import { createPokemonCard } from "./card.js";
 let loading = false; // Para evitar múltiples llamadas simultáneas
 let offset = 0; // Desplazamiento inicial
 const limit = 20; // Número de Pokémon a cargar por solicitud
-let allPokemons = []; // Arreglo para almacenar todos los Pokémon
 let filteredPokemons = []; // Arreglo para almacenar Pokémon filtrados
 const cardContainer = document.getElementById("card-container"); // Contenedor de tarjetas
 

@@ -28,6 +28,27 @@ export const localIcons = {
     stellar: '../src/icons/stellar.png',
 };
 
+// Función para obtener un Pokémon por ID o nombre.
+export async function getPokemonByIdOrName(query) {
+    const isId = !isNaN(query); // Verifica si la consulta es un número (ID)
+    const url = isId ? `${BASE_URL}pokemon/${query}` : `${BASE_URL}pokemon/${query.toLowerCase()}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('No se encontró ningún Pokémon con ese ID o nombre');
+        return await response.json();
+    } catch (error) {
+        console.error('Error al buscar Pokémon:', error);
+        throw error;
+    }
+}
+// Función para buscar Pokémon por nombre parcial (filtro)
+export async function searchPokemonsByName(query) {
+    const BASE_URL = 'https://pokeapi.co/api/v2/';
+    const response = await fetch(`${BASE_URL}pokemon?limit=1000`);  // Cargar todos los Pokémon
+    const data = await response.json();
+    return data.results.filter(pokemon => pokemon.name.includes(query.toLowerCase()));
+}
 // Función para obtener un Pokémon aleatorio.
 export async function getRandomPokemon() {
     try {

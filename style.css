@@ -1,13 +1,12 @@
 @import url(./src/css/header.css);
 @import url(./src/css/card.css);
-
 @import url(./src/css/finder.css);
+@import url(./src/css/weather.css);
 @import url(./src/css/whoGame.css);
 @import url(./src/css/pokedex.css);
-
 @import url(./src/css/cardGame.css);
-
 @import url(./src/css/modal.css);
+
 :root {
     /* Paleta de colores */
     --bodybackgroundcolor: #f4f4f4;
@@ -23,13 +22,14 @@
 
     /* Tipografía */
     --font-color: #333;
-    --font-colorHover: #afafaf;
+    --font-colorHover: #1b1b1b;
     --font-color-light: #666;
     --font-color-p: #333;
 
     /* Bordes y sombras */
     --std-borderRadius: 10px;
     --btn-borderRadius: 25px;
+    --std--backgroundColor: #cccccce1;
     --std-borderColor: rgba(70, 62, 62, 0.2);
     --std-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     --hover-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
@@ -39,30 +39,108 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
+    list-style-type: none;
+
+    transition: all 0.5s ease;
 }
 
 body {
     width: 100%;
-
     background-color: var(--background-color);
     color: var(--font-color);
-
+    font-family: 'Arial', sans-serif; /* Fuente más limpia */
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-}
-
-a {
-    text-decoration: none;
 }
 
 main {
     width: 100%;
     max-width: 1440px;
+    min-height: 90vh;
     margin: 0 auto;
-
+    padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 10px;
+    background-image: url(./src/img/indexBackground.jpg);
+    background-size: cover; /* Cambiado a cover para una mejor presentación */
+    background-position: center;
+}
+section{
+    box-shadow: var(--std-box-shadow);
+}
+/* footer style */
+footer {
+    width: 100%;
+    height: 10vh;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    background-color: var(--primary-color); /* Color de fondo para el pie de página */
+    box-shadow: var(--std-box-shadow); /* Sombra para el pie de página */
+}
+
+footer p {
+    text-align: center;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--white-color); /* Color de texto blanco */
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-links img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s; /* Transición para los íconos */
+}
+
+.footer-links img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+.footer-links a {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: var(--std-borderRadius);
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color-hover);
+    background-color: var(--secondary-color-hover);
+    letter-spacing: 1px;
 }

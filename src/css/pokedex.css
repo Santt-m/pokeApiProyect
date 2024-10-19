@@ -4,6 +4,10 @@
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+
+    background-color:var(--std--backgroundColor);
+    border-radius: var(--std-borderRadius);
+    box-shadow: var(--std-box-shadow);
 }
 
 /* Contenedor general para filtros y botones */
@@ -94,7 +98,7 @@
 /* Estilo del contenedor de tarjetas de Pokémon */
 #card-container {
     width: 95%;
-    background-color: #f8f9fa;
+
     padding: 5px;
     display: flex;
     flex-wrap: wrap;

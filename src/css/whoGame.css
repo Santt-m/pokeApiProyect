@@ -1,71 +1,69 @@
-/* .src/css/style.css */
-
-/* Estilos generales */
-body {
-    font-family: 'Arial', sans-serif; /* Fuente general */
-    background-color: #f9f9f9; /* Fondo claro */
-    color: #333; /* Color del texto */
-}
-
 /* Estilo de la sección del juego */
 #whoGame {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
     text-align: center;
     margin: 20px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
-    border-radius: 15px; /* Bordes redondeados */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra del contenedor */
-    max-width: 600px; /* Ancho máximo */
-    position: relative; /* Para el fondo animado */
-}
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: var(--std-borderRadius);
+    box-shadow: var(--std-box);
 
-/* Animación de fondo */
-#whoGame::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../img/whoGame_background.webp');
-    background-position: 50% 50%;
-    background-size: cover; /* Cubrir toda el área */
-    opacity: 0.1; /* Opacidad */
-    z-index: 0; /* Detrás de los otros elementos */
-    animation: pulse 5s infinite; /* Animación de pulsación */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-image: url(../img/whoGame_background.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-
-@keyframes pulse {
-    0% { opacity: 0.1; }
-    50% { opacity: 0.2; }
-    100% { opacity: 0.1; }
-}
-
 #whoGame h2 {
-    font-size: 2em;
-    color: #ffcc00; /* Color amarillo Pokémon */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra del texto */
-    margin-bottom: 20px; /* Espacio inferior */
+    font-size: 30px;
+    color: #ffcc00;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Estilo del contenedor */
+#pokemon-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    justify-content: space-between;
 }
 
 /* Estilo de la imagen del Pokémon */
 .pokemon-image {
-    width: 200px; /* Ajusta el tamaño de la imagen */
+    width: 200px;
     height: auto;
-    filter: brightness(0); /* Comienza como silueta */
-    transition: filter 0.5s ease, transform 0.3s; /* Transición suave */
-    margin-bottom: 15px; /* Espacio inferior */
+    filter: brightness(0);
+    transition: filter 0.5s ease, transform 0.5s;
 }
 
 .pokemon-image.revealed {
-    transform: scale(1.1); /* Animación de aumento */
+    transform: scale(1.1);
 }
 
 /* Estilo del temporizador */
 #timer-display {
-    font-size: 1.5em; /* Tamaño de fuente */
-    margin: 15px 0; /* Margen */
-    color: #e63946; /* Color rojo */
+    width: 75px;
+    height: 50px;
+    border-radius: var(--std-borderRadius);
+    font-size: 1.5em;
+    margin: 15px 0;
+    color: #e63946;
+
+    background-image: url(../img/displayBackground.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Estilo de los botones de opción */
@@ -80,35 +78,32 @@ body {
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    background-color: #007bff; /* Color azul */
+    background-color: #007bff;
     color: white;
-    transition: background-color 0.3s, transform 0.2s; /* Transiciones */
-    position: relative; /* Para el efecto de sombra */
-    z-index: 1; /* Asegurar que esté encima */
+    transition: background-color 0.3s, transform 0.2s;
+    position: relative;
+    z-index: 1;
 }
 
 .option-button:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Sube un poco al pasar el ratón */
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 /* Estilo de los mensajes de retroalimentación */
 .feedback-message {
     margin-top: 10px;
     font-size: 20px;
-    font-weight: bold; /* Texto en negrita */
+    font-weight: bold;
 }
 
 .feedback-message.correct {
-    color: #2ecc71; /* Verde para correcto */
+    color: #2ecc71;
 }
 
 .feedback-message.incorrect {
-    color: #e74c3c; /* Rojo para incorrecto */
+    color: #e74c3c;
 }
 
-/* Estilo del contenedor */
-#pokemon-container {
-    position: relative; /* Para los elementos absolutos */
-    margin-bottom: 20px; /* Espacio inferior */
-}
+
+

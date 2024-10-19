@@ -1,0 +1,230 @@
+#weatherSection {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para mejor diseño */
+    align-items: center;
+    justify-content: center;
+    background: var(--std--backgroundColor);
+    border-radius: 15px;
+    box-shadow: var(--std-box-shadow);
+    transition: all 0.3s ease-in-out;
+}
+
+#weatherSection h2,
+#weatherSection h3 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--primary-color); /* Color del título */
+    text-transform: uppercase; /* Texto en mayúsculas para títulos */
+}
+
+
+.weather-search {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#cityInput {
+    width: 65%;
+    padding: 12px;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+#cityInput:focus {
+    border-color: var(--secondary-color); /* Cambiar color de borde al enfocar */
+    outline: none; /* Quitar el contorno */
+}
+
+#searchWeatherBtn {
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.5s ease;
+}
+
+#searchWeatherBtn:hover {
+    color: var(--font-colorHover);
+    background-color: var(--primary-color-hover);
+}
+
+#weatherResult {
+    text-align: center;
+}
+
+#currentWeather {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para mejor diseño */
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#currentWeather:hover {
+    transform: scale(1.05); /* Aumentar un poco al pasar el mouse */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+#currentWeather h3 {
+    width: 100%;
+}
+
+#currentWeather img {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    transition: transform 0.3s; /* Efecto de zoom en la imagen */
+}
+
+#currentWeather img:hover {
+    transform: scale(1.1); /* Efecto de zoom en la imagen */
+}
+
+#currentWeather ol {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+#currentWeather li {
+    width: 100%;
+}
+
+#weatherIcon {
+    width: 80px;
+    height: 80px;
+    margin: 10px 0;
+}
+
+#forecastList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #312d2d4f;
+    border-radius: var(--std-borderRadius);
+}
+
+#forecastList li {
+    width: 75px;
+    height: 200px;
+    padding: 10px; /* Ajuste del padding para mejorar el espacio */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--font-color);
+    transition: all 0.3s ease;
+}
+
+#forecastList li:hover {
+    transform: translateY(-3px);
+    color: var(--font-colorHover);
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+}
+.weather-search {
+    position: relative; /* Necesario para que el autocompletado se posicione respecto a este contenedor */
+}
+
+#autocomplete-list {
+    max-width: 300px;
+    position: absolute; /* Posiciona el div de autocompletado */
+    top: 45px;
+    border-top: none; /* Sin borde superior para que se vea como parte del input */
+    z-index: 999; /* Asegura que el div esté sobre otros elementos */
+    background-color: white; /* Fondo blanco para el autocompletado */
+    width: 100%; /* Ocupa todo el ancho del input */
+    max-height: 200px; /* Altura máxima del dropdown */
+    overflow-y: auto; /* Habilita el scroll si hay muchos elementos */
+    color: black;
+}
+
+#autocomplete-list div {
+    padding: 8px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar sobre los elementos */
+}
+
+#autocomplete-list div:hover {
+    background-color: #f1f1f1; /* Cambia el fondo al pasar el mouse */
+}
+
+
+
+/* Clases para diferentes tipos de clima */
+.weather-clear {
+    background: linear-gradient(135deg, #a8e0ff, #f0f8ff);
+    color: #000;
+}
+
+.weather-few-clouds {
+    background: linear-gradient(135deg, #ffeb3b, #fffde7);
+    color: #000;
+}
+
+.weather-partly-cloudy {
+    background: linear-gradient(135deg, #ffccbc, #ffe0b2);
+    color: #000;
+}
+
+.weather-overcast {
+    background: linear-gradient(135deg, #b0bec5, #eceff1);
+    color: #000;
+}
+
+.weather-fog {
+    background: linear-gradient(135deg, #cfd8dc, #eceff1);
+    color: #000;
+}
+
+.weather-rain {
+    background: linear-gradient(135deg, #64b5f6, #bbdefb);
+    color: #000;
+}
+
+.weather-thunderstorm {
+    background: linear-gradient(135deg, #f44336, #ffebee);
+    color: #fff;
+}
+
+.weather-unknown {
+    background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+    color: #000;
+}

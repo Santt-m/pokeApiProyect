@@ -1,12 +1,20 @@
-import { getPokemonDetails } from './api.js';
+import { getPokemonByIdOrName, searchPokemonsByName } from './api.js';
 import { createPokemonCard } from './card.js';
 
-// Función para renderizar la card del Pokémon
-function renderPokemonCard(pokemon) {
+// Función para renderizar una lista de tarjetas de Pokémon
+function renderPokemonCards(pokemons) {
     const resultContainer = document.getElementById('resultContainer');
     resultContainer.innerHTML = ''; // Limpiar resultados anteriores
-    const card = createPokemonCard(pokemon);
-    resultContainer.appendChild(card);
+
+    if (pokemons.length === 0) {
+        resultContainer.innerHTML = '<p class="error-message">No se encontraron Pokémon con ese nombre</p>';
+        return;
+    }
+
+    pokemons.forEach(pokemon => {
+        const card = createPokemonCard(pokemon);
+        resultContainer.appendChild(card);
+    });
 }
 
 // Función para mostrar el mensaje de error
@@ -16,23 +24,56 @@ function renderErrorMessage(message) {
 }
 
 // Función principal para manejar la búsqueda
-async function handleSearch() {
-    const pokemonNumberInput = document.getElementById('pokemonNumber');
-    const pokemonId = pokemonNumberInput.value;
-
-    if (!pokemonId) {
-        renderErrorMessage('Por favor ingrese un número válido');
+async function handleSearch(query) {
+    if (!query) {
+        renderErrorMessage('Por favor ingrese un ID o nombre de Pokémon válido');
         return;
     }
 
-    try {
-        const pokemon = await getPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-        renderPokemonCard(pokemon);
-    } catch (error) {
-        renderErrorMessage('No se encontró ningún Pokémon con ese ID');
+    // Si el query es un número, buscar solo un Pokémon por ID
+    if (!isNaN(query)) {
+        try {
+            const pokemon = await getPokemonByIdOrName(query);
+            renderPokemonCards([pokemon]); // Mostrar solo una card
+        } catch (error) {
+            renderErrorMessage('No se encontró ningún Pokémon con ese ID');
+        }
+    } else {
+        // Si es un texto, buscar múltiples Pokémon por nombre parcial
+        try {
+            const pokemons = await searchPokemonsByName(query);
+            const pokemonDetailsPromises = pokemons.map(pokemon => getPokemonByIdOrName(pokemon.name));
+            const pokemonDetails = await Promise.all(pokemonDetailsPromises);
+            renderPokemonCards(pokemonDetails); // Mostrar todas las cards encontradas
+        } catch (error) {
+            renderErrorMessage('No se encontraron Pokémon con ese nombre');
+        }
     }
 }
 
-export const initFindPokemon = () => {
-    document.getElementById('searchButton').addEventListener('click', handleSearch);
+// Función de debounce para limitar las llamadas repetitivas
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
 }
+
+// Inicialización de la búsqueda
+export const initFindPokemon = () => {
+    const pokemonInput = document.getElementById('pokemonNumber');
+    const searchButton = document.getElementById('searchButton');
+
+    // Evento de búsqueda instantánea cuando el usuario escribe
+    pokemonInput.addEventListener('input', debounce(() => {
+        const query = pokemonInput.value.trim();
+        handleSearch(query);
+    }, 500));
+
+    // También mantener el botón de búsqueda
+    searchButton.addEventListener('click', () => {
+        const query = pokemonInput.value.trim();
+        handleSearch(query);
+    });
+};
