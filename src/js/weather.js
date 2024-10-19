@@ -8,6 +8,34 @@ const DEFAULT_LOCATION = {
     lon: -81.5639
 };
 
+// Función para aplicar el efecto de carga a los componentes
+function showComponentLoading() {
+    const cityElement = document.getElementById('currentCity');
+    const tempElement = document.getElementById('currentTemp');
+    const conditionElement = document.getElementById('currentCondition');
+    const forecastList = document.getElementById('forecastList');
+
+    // Aplicar clase de carga (skeleton) a los componentes
+    cityElement.classList.add('skeleton');
+    tempElement.classList.add('skeleton');
+    conditionElement.classList.add('skeleton');
+    forecastList.classList.add('skeleton');
+}
+
+// Función para quitar el efecto de carga a los componentes
+function hideComponentLoading() {
+    const cityElement = document.getElementById('currentCity');
+    const tempElement = document.getElementById('currentTemp');
+    const conditionElement = document.getElementById('currentCondition');
+    const forecastList = document.getElementById('forecastList');
+
+    // Remover clase de carga (skeleton) de los componentes
+    cityElement.classList.remove('skeleton');
+    tempElement.classList.remove('skeleton');
+    conditionElement.classList.remove('skeleton');
+    forecastList.classList.remove('skeleton');
+}
+
 // Función para obtener el clima actual y la previsión
 async function getWeatherData(lat, lon) {
     try {
@@ -17,8 +45,7 @@ async function getWeatherData(lat, lon) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Error al obtener los datos del clima:', error);
-        alert('No se pudo obtener el clima, por favor intenta nuevamente.');
+        Modal.showError('Error al obtener los datos del clima: ' + error.message);
     }
 }
 
@@ -29,14 +56,13 @@ async function getCityName(lat, lon) {
         const response = await fetch(geoUrl);
         if (!response.ok) throw new Error('Error al obtener la ciudad');
         const data = await response.json();
-        
-        // Extraer solo la ciudad y el país
+
         const city = data.address.city || data.address.town || data.address.village || 'Ubicación desconocida';
         const country = data.address.country || 'Desconocido';
 
-        return `${city}, ${country}`; // Devuelve solo la ciudad y el país
+        return `${city}, ${country}`;
     } catch (error) {
-        console.error('Error al obtener el nombre de la ciudad:', error);
+        Modal.showError('Error al obtener el nombre de la ciudad: ' + error.message);
         return 'Ubicación desconocida';
     }
 }
@@ -49,51 +75,41 @@ function renderWeather(data, cityName) {
     const weatherIcon = document.getElementById('weatherIcon');
     const currentWeather = data.current_weather;
 
-    // Mostrar clima actual
+    // Rellenar los datos del clima
     cityElement.innerHTML = `<a href="https://www.google.com/maps/@?api=1&map_action=map&center=${currentWeather.latitude},${currentWeather.longitude}&zoom=10" target="_blank">Ubicación: ${cityName}</a>`;
     tempElement.textContent = `Temperatura: ${currentWeather.temperature}°C`;
     conditionElement.textContent = `Viento: ${currentWeather.windspeed} km/h`;
 
-    // Mostrar icono del clima actual
     weatherIcon.style.display = 'block';
     weatherIcon.src = getWeatherIcon(currentWeather.weathercode);
 
-    // Limpiar previsiones anteriores
     const forecastList = document.getElementById('forecastList');
     forecastList.innerHTML = '';
 
-    // Mostrar previsión de los próximos días
     if (data.daily) {
         data.daily.time.forEach((dateString, index) => {
-            const date = new Date(dateString); // Convierte la cadena de fecha en un objeto Date
-            const options = { weekday: 'long' }; // Opciones para mostrar el día de la semana
-            const dayName = date.toLocaleDateString('es-ES', options); // Obtiene el nombre del día en español
+            const date = new Date(dateString);
+            const options = { weekday: 'long' };
+            const dayName = date.toLocaleDateString('es-ES', options);
 
             const li = document.createElement('li');
             const maxTemp = data.daily.temperature_2m_max[index];
             const minTemp = data.daily.temperature_2m_min[index];
             const weatherCode = data.daily.weathercode[index];
 
-            // Crear el elemento de imagen para el ícono del clima
             const icon = document.createElement('img');
             icon.src = getWeatherIcon(weatherCode);
             icon.alt = 'Weather Icon';
             icon.classList.add('weather-icon');
 
-            // Agregar el ícono al <li>
             li.appendChild(icon);
-
-            // Agregar la información del día, max y min como párrafos
             li.innerHTML += `
-                <p>${dayName}</p> <!-- Muestra solo el día -->
+                <p>${dayName}</p>
                 <p>Max: ${maxTemp}°C</p>
                 <p>Min: ${minTemp}°C</p>
             `;
 
-            // Asignar la clase correspondiente según el código del clima
             li.classList.add(getWeatherClass(weatherCode));
-
-            // Agregar el <li> a la lista de pronóstico
             forecastList.appendChild(li);
         });
     }
@@ -102,26 +118,26 @@ function renderWeather(data, cityName) {
 // Función para obtener la clase de clima basado en el código
 function getWeatherClass(weatherCode) {
     const classMap = {
-        0: 'weather-clear',             // Despejado
-        1: 'weather-few-clouds',        // Algunas nubes
-        2: 'weather-partly-cloudy',     // Parcialmente nublado
-        3: 'weather-overcast',          // Nublado total
-        45: 'weather-fog',              // Niebla ligera
-        48: 'weather-fog',              // Niebla densa
-        51: 'weather-rain',             // Llovizna ligera
-        53: 'weather-rain',             // Llovizna moderada
-        55: 'weather-rain',             // Llovizna fuerte
-        61: 'weather-rain',             // Lluvia ligera
-        63: 'weather-rain',             // Lluvia moderada
-        65: 'weather-rain',             // Lluvia fuerte
-        80: 'weather-rain',             // Chubascos ligeros
-        81: 'weather-rain',             // Chubascos moderados
-        82: 'weather-rain',             // Chubascos fuertes
-        95: 'weather-thunderstorm',     // Tormenta ligera
-        96: 'weather-thunderstorm',     // Tormenta
-        99: 'weather-thunderstorm',     // Tormenta severa
+        0: 'weather-clear',
+        1: 'weather-few-clouds',
+        2: 'weather-partly-cloudy',
+        3: 'weather-overcast',
+        45: 'weather-fog',
+        48: 'weather-fog',
+        51: 'weather-rain',
+        53: 'weather-rain',
+        55: 'weather-rain',
+        61: 'weather-rain',
+        63: 'weather-rain',
+        65: 'weather-rain',
+        80: 'weather-rain',
+        81: 'weather-rain',
+        82: 'weather-rain',
+        95: 'weather-thunderstorm',
+        96: 'weather-thunderstorm',
+        99: 'weather-thunderstorm',
     };
-    return classMap[weatherCode] || 'weather-unknown'; // Devuelve 'weather-unknown' si no hay coincidencia
+    return classMap[weatherCode] || 'weather-unknown';
 }
 
 // Función para obtener la ubicación actual del usuario
@@ -133,12 +149,12 @@ function getUserLocation() {
                 loadWeatherByCoords(latitude, longitude);
             },
             () => {
-                console.log('No se pudo obtener la ubicación, usando ubicación por defecto');
+                Modal.showError('No se pudo obtener la ubicación, usando ubicación por defecto');
                 loadWeather(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.city);
             }
         );
     } else {
-        console.log('Geolocalización no soportada, usando ubicación por defecto');
+        Modal.showError('Geolocalización no soportada, usando ubicación por defecto');
         loadWeather(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.city);
     }
 }
@@ -146,98 +162,61 @@ function getUserLocation() {
 // Función para cargar el clima basado en coordenadas
 async function loadWeatherByCoords(lat, lon) {
     try {
+        // Mostrar efecto de carga en los componentes
+        showComponentLoading();
+
         const cityName = await getCityName(lat, lon);
         const weatherData = await getWeatherData(lat, lon);
+
+        // Ocultar el efecto de carga después de cargar los datos
+        hideComponentLoading();
+
         if (weatherData) {
             renderWeather(weatherData, cityName);
         } else {
-            alert('No se pudo obtener los datos del clima.');
+            Modal.showError('No se pudo obtener los datos del clima.');
         }
     } catch (error) {
-        console.error('Error al cargar el clima:', error);
-        alert('No se pudo obtener el clima para la ubicación actual.');
+        // Ocultar el efecto de carga incluso si ocurre un error
+        hideComponentLoading();
+        Modal.showError('Error al cargar el clima: ' + error.message);
     }
 }
 
-// Función para cargar el clima por ciudad con coordenadas predeterminadas
-async function loadWeather(lat, lon, city) {
-    try {
-        const weatherData = await getWeatherData(lat, lon);
-        if (weatherData) {
-            renderWeather(weatherData, city);
-        } else {
-            alert('No se pudo obtener los datos del clima.');
-        }
-    } catch (error) {
-        console.error('Error al cargar el clima por ciudad:', error);
-        alert('No se pudo obtener el clima para la ciudad ingresada.');
-    }
-}
-
-// Función para manejar la búsqueda de ciudades
-async function handleSearchCity() {
-    const cityInput = document.getElementById('cityInput').value.trim();
-
-    if (!cityInput) {
-        alert('Por favor, ingresa una ciudad válida.');
-        return;
-    }
-
-    try {
-        const geoData = await getCityCoordinates(cityInput);
-        if (geoData) {
-            loadWeather(geoData.lat, geoData.lon, geoData.city);
-        } else {
-            alert('Ciudad no encontrada');
-        }
-    } catch (error) {
-        console.error('Error al buscar la ciudad:', error);
-        alert('No se pudo obtener el clima para la ciudad ingresada.');
-    }
-}
-
-// Función para manejar el autocompletado de ciudades
+// Función para manejar el autocompletado de ciudades utilizando la API de OpenStreetMap (sin API keys)
 const cityInput = document.getElementById('cityInput');
-const autocompleteList = document.getElementById('autocomplete-list');
 
-// Lista de ciudades para autocompletar (puedes cambiarla o cargarla desde una API)
-const cities = [
-    "Buenos Aires", "Córdoba", "La Plata", "Mendoza", "Rosario",
-    "Salta", "San Juan", "Tucumán", "Neuquén", "Río Cuarto",
-    "Bahía Blanca", "San Miguel de Tucumán"
-];
-
-// Escuchar el evento input
-cityInput.addEventListener('input', function() {
+cityInput.addEventListener('input', async function () {
     const value = this.value;
 
-    // Limpiar la lista de autocompletado
-    autocompleteList.innerHTML = '';
+    // Usar datalist en vez de una lista externa
+    const dataList = document.getElementById('autocomplete-list');
+    dataList.innerHTML = '';  // Limpiar el datalist de autocompletado
 
-    if (!value) {
-        return; // Si no hay valor, no mostrar nada
-    }
+    if (!value) return;
 
-    // Filtrar las ciudades que coinciden con el valor ingresado
-    const filteredCities = cities.filter(city => city.toLowerCase().includes(value.toLowerCase()));
+    try {
+        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${value}&format=json&limit=5`;
+        const response = await fetch(geoUrl);
+        const cities = await response.json();
 
-    // Crear elementos de autocompletado
-    filteredCities.forEach(city => {
-        const div = document.createElement('div');
-        div.textContent = city;
-        div.addEventListener('click', function() {
-            cityInput.value = city; // Completar el input con la ciudad seleccionada
-            autocompleteList.innerHTML = ''; // Limpiar la lista
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city.display_name;  // Mostrar el nombre completo de la ciudad
+            option.addEventListener('click', function () {
+                cityInput.value = city.display_name;
+                loadWeather(city.lat, city.lon, city.display_name); // Cargar el clima para la ciudad seleccionada
+            });
+            dataList.appendChild(option);
         });
-        autocompleteList.appendChild(div); // Agregar la ciudad a la lista
-    });
+    } catch (error) {
+        Modal.showError('Error al autocompletar ciudades: ' + error.message);
+    }
 });
 
 // Función de inicialización del clima
 export function initWeather() {
     getUserLocation();
-    const searchButton = document.getElementById('searchWeatherBtn');
-    searchButton.addEventListener('click', handleSearchCity);
     cityInput.addEventListener('keydown', event => {
         if (event.key === 'Enter') {
             handleSearchCity();
@@ -245,7 +224,7 @@ export function initWeather() {
     });
 }
 
-
+// Función para obtener los íconos del clima
 function getWeatherIcon(weatherCode) {
     const iconMap = {
         0: 'clear_sky.png',

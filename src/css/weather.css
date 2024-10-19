@@ -1,6 +1,6 @@
 #weatherSection {
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     height: auto;
     padding: 20px;
     display: flex;
@@ -88,6 +88,9 @@
 
 #currentWeather h3 {
     width: 100%;
+
+    text-align: center;
+    font-size: 16px;
 }
 
 #currentWeather img {
@@ -163,29 +166,6 @@
 .weather-search {
     position: relative; /* Necesario para que el autocompletado se posicione respecto a este contenedor */
 }
-
-#autocomplete-list {
-    max-width: 300px;
-    position: absolute; /* Posiciona el div de autocompletado */
-    top: 45px;
-    border-top: none; /* Sin borde superior para que se vea como parte del input */
-    z-index: 999; /* Asegura que el div esté sobre otros elementos */
-    background-color: white; /* Fondo blanco para el autocompletado */
-    width: 100%; /* Ocupa todo el ancho del input */
-    max-height: 200px; /* Altura máxima del dropdown */
-    overflow-y: auto; /* Habilita el scroll si hay muchos elementos */
-    color: black;
-}
-
-#autocomplete-list div {
-    padding: 8px; /* Espaciado interno */
-    cursor: pointer; /* Cambia el cursor al pasar sobre los elementos */
-}
-
-#autocomplete-list div:hover {
-    background-color: #f1f1f1; /* Cambia el fondo al pasar el mouse */
-}
-
 
 
 /* Clases para diferentes tipos de clima */

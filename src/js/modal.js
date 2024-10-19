@@ -2,9 +2,9 @@
 
 /* 
 
-EJEMPLO:
+import Modal from './modal.js';
 
-import modal 
+EJEMPLO:
 
 const modal = new Modal({
   title: "Título del Modal",
@@ -12,7 +12,6 @@ const modal = new Modal({
   buttonText: "Cerrar",
   type: "success",
 });
-
 modal.createModal();
 
 
@@ -21,9 +20,6 @@ modal.createModal();
 
 
 */
-
-
-
 
 
 class Modal {

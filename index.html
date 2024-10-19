@@ -35,10 +35,10 @@
         </section>
         <section id="weatherSection">
             <h2>El clima</h2>
-            <h3>porque yo se que querias saberlo</h3>
+            <h3>porque yo sé que querías saberlo</h3>
             <div class="weather-search">
-                <input type="text" id="cityInput" placeholder="Search for a city" autocomplete="off">
-                <div id="autocomplete-list" class="autocomplete-items"></div>
+                <input type="text" id="cityInput" list="autocomplete-list" placeholder="Escribe una ciudad...">
+                <datalist id="autocomplete-list"></datalist>
             </div>
             
             <div id="weatherResult">
@@ -52,11 +52,12 @@
                     </ol>
                 </div>
                 <div id="forecastWeather">
-                    <h3>Pronostico a 7 dias</h3>
+                    <h3>Pronóstico a 7 días</h3>
                     <ul id="forecastList"></ul>
                 </div>
             </div>
         </section>
+        
         
         
         <section id="whoGame">
@@ -75,7 +76,8 @@
             <p>2024</p>
         </div>
         <div class="footer-links">
-            <a href="https://github.com/Santt-m/pokeApiProyect"><img src="./src/icons/github-dark.svg" alt="Github icon">Github</a>
+            <a href="https://github.com/Santt-m/pokeApiProyect"><img src="./src/icons/github-dark.svg" alt="Github icon"> Github</a>
+            <a href="https://www.linkedin.com/in/santtm/"><img src="./src/icons/linkedin.svg" alt="linkedin icon"> Linkedin</a>
         </div>
     </footer>
     <script type="module" src="app.js"></script>

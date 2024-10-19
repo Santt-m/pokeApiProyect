@@ -67,7 +67,7 @@ main {
     align-items: start;
     gap: 10px;
     background-image: url(./src/img/indexBackground.jpg);
-    background-size: cover; /* Cambiado a cover para una mejor presentación */
+    background-size: cover;
     background-position: center;
 }
 section{
@@ -84,8 +84,8 @@ footer {
     align-items: center;
     justify-content: space-around;
     gap: 10px;
-    background-color: var(--primary-color); /* Color de fondo para el pie de página */
-    box-shadow: var(--std-box-shadow); /* Sombra para el pie de página */
+    background-color: var(--primary-color);
+    box-shadow: var(--std-box-shadow);
 }
 
 footer p {
@@ -102,7 +102,7 @@ footer p {
     gap: 10px;
     font-size: 20px;
     font-weight: 500;
-    color: var(--white-color); /* Color de texto blanco */
+    color: var(--white-color);
 }
 
 .footer-links {
@@ -117,11 +117,10 @@ footer p {
 .footer-links img {
     width: 50px;
     height: 50px;
-    transition: transform 0.3s; /* Transición para los íconos */
 }
 
 .footer-links img:hover {
-    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+    transform: scale(1.05);
 }
 
 .footer-links a {
@@ -143,4 +142,37 @@ footer p {
     color: var(--primary-color-hover);
     background-color: var(--secondary-color-hover);
     letter-spacing: 1px;
+}
+
+
+/* Cargador spinner style */
+/* Estilo básico de efecto skeleton */
+.skeleton {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    color: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animación de "brillo" de carga */
+.skeleton::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        left: -150px;
+    }
+    100% {
+        left: 100%;
+    }
 }
