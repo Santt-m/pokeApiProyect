@@ -1,84 +1,164 @@
-#cardGame{
+/* Estructura general */
+#cardGame {
     width: 100%;
-
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
-#gameBanner {    
+#gameBanner {
     width: 100%;
-    padding: 10px;
-    margin: 10px;
+    padding: 20px;
+    margin: 20px 0;
     display: flex;
     justify-content: space-between;
-
-    background-color:var(--std--backgroundColor);
+    background-color: var(--std--backgroundColor);
     border-radius: var(--std-borderRadius);
     box-shadow: var(--std-box-shadow);
-
-    
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 #gameBanner div {
     text-align: center;
     width: 45%;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-#gameContainer{
-    width: 100%;
+#gameBanner h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
 
+#gameBanner p {
+    font-size: 28px;
+    color: #27ae60;
+}
+
+#gameContainer {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 20px;
 }
 
-#player1-cards, #player2-cards{
+#player1-cards, #player2-cards {
     width: 100%;
-    padding: 15px;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
 }
 
-#battleContainer{
+#player1-cards li, #player2-cards li {
+    list-style: none;
+}
+
+#battleContainer {
     width: 100%;
-    height: 20vh;
-    padding: 15px;
+    height: 30vh;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-
-    background-color:var(--std--backgroundColor);
+    justify-content: space-around;
+    background-color: var(--std--backgroundColor);
     border-radius: var(--std-borderRadius);
     box-shadow: var(--std-box-shadow);
+    transition: all 0.3s ease-in-out;
 }
-#battleContainer button{
-    padding: 10px 20px;
+
+#battleContainer button {
+    padding: 15px 30px;
+    background-color: #2980b9;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+}
+
+#battleContainer button:hover {
+    background-color: #1f618d;
+}
+
+#player1Card, #player2Card {
+    width: 100px;
+    height: 150px;
+    background-color: #ecf0f1;
+    border: 2px solid #bdc3c7;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
-#battleContainer button:hover{
-    background-color: #3e8e41;  
-}   
-#battleGame{
-    width: 50%;
 
+#player1Card img, #player2Card img {
+    max-width: 80px;
+    transition: transform 0.3s ease;
+}
+
+#player1Card:hover img, #player2Card:hover img {
+    transform: scale(1.2);
+}
+
+#battleGame {
+    width: 50%;
+    text-align: center;
+    font-size: 18px;
+    color: #34495e;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+}
+
+#battleGame h3 {
+    font-size: 22px;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Tabla de batalla */
+#battleGame table {
+    width: 80%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+#battleGame th, #battleGame td {
+    padding: 10px;
+    border: 1px solid #dfe6e9;
+}
+
+#battleGame th {
+    background-color: #3498db;
+    color: white;
+    text-transform: uppercase;
+}
+
+#battleGame td {
+    background-color: #ecf0f1;
+    text-align: center;
+}
+
+#battleGame tbody tr:nth-child(even) {
+    background-color: #bdc3c7;
 }

@@ -1,5 +1,8 @@
+// src/js/game.js
+
 import { fetchPokemons, fetchPokemonData } from '../api.js'; 
 import { createPokemonCard } from '../card.js'; 
+import Modal from '../modal.js'; // Importar la clase Modal
 
 let player1Points = 0;
 let player2Points = 0;
@@ -11,8 +14,17 @@ async function dealCards(pokemons, numberOfCards) {
     while (cards.length < numberOfCards) {
         const randomIndex = Math.floor(Math.random() * pokemons.results.length);
         const pokemonData = pokemons.results[randomIndex];
-        const pokemon = await fetchPokemonData(pokemonData.url);
-        cards.push(pokemon);
+        try {
+            const pokemon = await fetchPokemonData(pokemonData.url);
+            cards.push(pokemon);
+        } catch (error) {
+            const modal = new Modal({
+                message: 'Error al cargar la información de un Pokémon. Inténtalo de nuevo.',
+                buttonText: 'Cerrar',
+                type: 'error'
+            });
+            modal.createAlert();
+        }
     }
     return cards;
 }
@@ -20,10 +32,15 @@ async function dealCards(pokemons, numberOfCards) {
 // Función para renderizar cartas de cada jugador
 function renderPlayerCards(player, container) {
     if (!container) {
-        console.error(`El contenedor para ${player.name} no existe.`);
+        const modal = new Modal({
+            message: `El contenedor para ${player.name} no existe.`,
+            buttonText: 'Cerrar',
+            type: 'error'
+        });
+        modal.createAlert();
         return; 
     }
-    
+
     container.innerHTML = ''; // Limpiar el contenedor
     player.cards.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
@@ -44,7 +61,12 @@ function moveCardToBattle(player, cardIndex) {
     const battleImage = player.name === 'Player 1' ? document.getElementById('player1CardImage') : document.getElementById('player2CardImage');
 
     if (!battleCardContainer || !battleImage) {
-        console.error(`El contenedor de batalla para ${player.name} no existe.`);
+        const modal = new Modal({
+            message: `El contenedor de batalla para ${player.name} no existe.`,
+            buttonText: 'Cerrar',
+            type: 'error'
+        });
+        modal.createAlert();
         return;
     }
 
@@ -79,7 +101,12 @@ export async function startGame() {
         document.getElementById('gameButton').addEventListener('click', startBattle);
 
     } catch (error) {
-        console.error('Error al iniciar el juego:', error);
+        const modal = new Modal({
+            message: 'Error al iniciar el juego. Inténtalo de nuevo.',
+            buttonText: 'Cerrar',
+            type: 'error'
+        });
+        modal.createAlert();
     }
 }
 
@@ -88,7 +115,12 @@ export function startBattle() {
     const { player1, player2 } = window.players;
 
     if (!player1.selectedCard || !player2.selectedCard) {
-        alert('Ambos jugadores deben seleccionar una carta.');
+        const modal = new Modal({
+            message: 'Ambos jugadores deben seleccionar una carta antes de iniciar la batalla.',
+            buttonText: 'Cerrar',
+            type: 'warning'
+        });
+        modal.createAlert();
         return;
     }
 
@@ -109,24 +141,48 @@ export function startBattle() {
 
     if (player1Damage > player2Damage) {
         player1Points++;
-        resultMessage = `Player 1 gana esta ronda con ${player1Damage} puntos de daño contra ${player2Damage} de Player 2.`;
+        resultMessage = `¡Player 1 gana esta ronda!`;
         removeLosingCard(player2);
     } else if (player2Damage > player1Damage) {
         player2Points++;
-        resultMessage = `Player 2 gana esta ronda con ${player2Damage} puntos de daño contra ${player1Damage} de Player 1.`;
+        resultMessage = `¡Player 2 gana esta ronda!`;
         removeLosingCard(player1);
     } else {
-        resultMessage = `Empate, ambos jugadores causaron el mismo daño (${player1Damage}).`;
+        resultMessage = `Empate en esta ronda.`;
     }
 
     // Actualizar puntos en el banner
     document.getElementById('player1Points').textContent = player1Points;
     document.getElementById('player2Points').textContent = player2Points;
 
-    // Mostrar resultado de la batalla
-    battleGame.innerHTML = `<h3>Resultado: ${resultMessage}</h3>
-                            <p>Player 1: Ataque = ${player1Attack}, Defensa = ${player1Defense}</p>
-                            <p>Player 2: Ataque = ${player2Attack}, Defensa = ${player2Defense}</p>`;
+    // Mostrar resultado de la batalla con tabla estilizada
+    battleGame.innerHTML = `
+        <h3>${resultMessage}</h3>
+        <table style="width: 100%; text-align: center; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>Ataque</th>
+                    <th>Defensa</th>
+                    <th>Daño Causado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Player 1</td>
+                    <td>${player1Attack}</td>
+                    <td>${player1Defense}</td>
+                    <td>${player1Damage}</td>
+                </tr>
+                <tr>
+                    <td>Player 2</td>
+                    <td>${player2Attack}</td>
+                    <td>${player2Defense}</td>
+                    <td>${player2Damage}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
 
     // Revisar si el juego ha terminado
     checkForWinner();
@@ -153,6 +209,11 @@ function checkForWinner() {
             winner = 'El juego terminó en empate!';
         }
 
-        alert(winner);
+        const modal = new Modal({
+            message: winner,
+            buttonText: 'Cerrar',
+            type: 'info'
+        });
+        modal.createAlert();
     }
 }

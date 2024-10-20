@@ -4,7 +4,7 @@
 
 import Modal from './modal.js';
 
-EJEMPLO:
+EJEMPLO Modal !
 
 const modal = new Modal({
   title: "Título del Modal",
@@ -12,15 +12,16 @@ const modal = new Modal({
   buttonText: "Cerrar",
   type: "success",
 });
-modal.createModal();
+modal.createModal(); // mosrar el modal
 
-
-
-
-
+const modal = new Modal({
+  message: 'mensaje del alerta',
+  buttonText: 'Cerrar',
+  type: 'error'
+});
+modal.createAlert(); // Mostrar la alerta
 
 */
-
 
 class Modal {
   constructor(options) {

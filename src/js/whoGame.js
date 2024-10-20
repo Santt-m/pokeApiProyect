@@ -1,7 +1,7 @@
 // src/js/whoGame.js
 
 import { getRandomPokemon, getTwoRandomPokemons } from './api.js';
-import Modal from './modal.js'; 
+import Modal from './modal.js'; // Importar la clase Modal para usar las alertas
 
 let correctPokemon = null;
 let score = 0; // Puntaje del jugador
@@ -39,8 +39,13 @@ async function startNewGame(pokemonImage, optionsContainer, feedback, timerDispl
         feedback.textContent = '';
         startTimer(timerDisplay, pokemonImage, optionsContainer, feedback);
     } catch (error) {
-        feedback.textContent = 'Error al cargar el Pokémon. Inténtalo de nuevo más tarde.';
-        feedback.style.color = 'red';
+        // Capturar errores y mostrar alerta con el sistema de modales
+        const modal = new Modal({
+            message: 'Error al cargar el Pokémon. Inténtalo de nuevo más tarde.',
+            buttonText: 'Cerrar',
+            type: 'error'
+        });
+        modal.createAlert();
     }
 }
 
@@ -48,18 +53,28 @@ async function generateOptions(correctPokemon, container) {
     container.innerHTML = ''; 
     const randomOptions = [correctPokemon.name];
 
-    const additionalPokemons = await getTwoRandomPokemons(correctPokemon.name);
-    randomOptions.push(...additionalPokemons);
+    try {
+        const additionalPokemons = await getTwoRandomPokemons(correctPokemon.name);
+        randomOptions.push(...additionalPokemons);
 
-    randomOptions.sort(() => Math.random() - 0.5);
+        randomOptions.sort(() => Math.random() - 0.5);
 
-    randomOptions.forEach(option => {
-        const button = document.createElement('button');
-        button.textContent = option;
-        button.classList.add('option-button');
-        button.addEventListener('click', () => checkAnswer(option, container));
-        container.appendChild(button);
-    });
+        randomOptions.forEach(option => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.classList.add('option-button');
+            button.addEventListener('click', () => checkAnswer(option, container));
+            container.appendChild(button);
+        });
+    } catch (error) {
+        // Capturar error al generar opciones y mostrar una alerta
+        const modal = new Modal({
+            message: 'Error al generar las opciones. Inténtalo de nuevo.',
+            buttonText: 'Cerrar',
+            type: 'error'
+        });
+        modal.createAlert();
+    }
 }
 
 function startTimer(timerDisplay, pokemonImage, optionsContainer, feedback) {
@@ -114,4 +129,3 @@ function revealPokemon(pokemonImage) {
 document.addEventListener('DOMContentLoaded', () => {
     initWhoGame();
 });
-
