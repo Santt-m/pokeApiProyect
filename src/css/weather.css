@@ -4,7 +4,7 @@
     height: auto;
     padding: 20px;
     display: flex;
-    flex-direction: column; /* Cambiar a columna para mejor diseño */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--std--backgroundColor);
@@ -18,8 +18,8 @@
     width: 100%;
     text-align: center;
     margin-bottom: 10px;
-    color: var(--primary-color); /* Color del título */
-    text-transform: uppercase; /* Texto en mayúsculas para títulos */
+    color: var(--primary-color);
+    text-transform: uppercase;
 }
 
 
@@ -43,8 +43,8 @@
 }
 
 #cityInput:focus {
-    border-color: var(--secondary-color); /* Cambiar color de borde al enfocar */
-    outline: none; /* Quitar el contorno */
+    border-color: var(--secondary-color);
+    outline: none;
 }
 
 #searchWeatherBtn {
@@ -70,20 +70,19 @@
 #currentWeather {
     width: 100%;
     display: flex;
-    flex-direction: column; /* Cambiado a columna para mejor diseño */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     padding: 15px;
-    background-color: var(--white-color);
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 #currentWeather:hover {
-    transform: scale(1.05); /* Aumentar un poco al pasar el mouse */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 #currentWeather h3 {
@@ -97,11 +96,11 @@
     width: 100px;
     height: 100px;
     margin: 20px;
-    transition: transform 0.3s; /* Efecto de zoom en la imagen */
+    transition: transform 0.3s;
 }
 
 #currentWeather img:hover {
-    transform: scale(1.1); /* Efecto de zoom en la imagen */
+    transform: scale(1.1);
 }
 
 #currentWeather ol {
@@ -144,7 +143,7 @@
 #forecastList li {
     width: 75px;
     height: 200px;
-    padding: 10px; /* Ajuste del padding para mejorar el espacio */
+    padding: 10px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -163,9 +162,7 @@
     width: 50px;
     height: 50px;
 }
-.weather-search {
-    position: relative; /* Necesario para que el autocompletado se posicione respecto a este contenedor */
-}
+
 
 
 /* Clases para diferentes tipos de clima */

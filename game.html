@@ -3,21 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name="language" content="es">
+    <!-- SEO tags -->
+    <meta name="description" content="Juego de cartas interactivo de Pokémon. Juega y compite con tus amigos mientras descubres el mundo de Pokémon.">
+    <meta name="city" content="Ciudad Autónoma de Buenos Aires">
+    <meta name="country" content="Argentina">
+    <meta name="geography" content="Global">
+    <meta name="keywords" content="Juego de cartas, Pokémon, PokeAPI, juego interactivo">
+    <meta name="author" content="Santt">
+    <meta name="copyright" content="Santt">
+    <link rel="canonical" href="https://www.supersitios.net/game.html">
+    <!-- index recommended -->
+    <meta name="robots" content="All, index, follow">
+    <!-- OpenGraph -->
+    <meta property="og:title" content="Juego de Cartas | Santt">
+    <meta property="og:description" content="Juego de cartas interactivo de Pokémon. Juega y compite con tus amigos mientras descubres el mundo de Pokémon.">
+    <meta property="og:url" content="https://www.supersitios.net/game.html">
+    <meta property="og:image" content="./src/img/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PokeAPI">
+    <!-- CSS links -->
     <link rel="stylesheet" href="style.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Title -->
     <title>Santt | Juego de cartas</title>
 </head>
 <body>
     <header>
-        <a class="headerLogo" href="#"><img src="./src/img/logo.png" alt="logo pokemon"></a>
-
-        <nav>
-            <a href="./index.html">Inicio</a>
-            <a href="./pokedex.html">Pokedex</a>
-            <a href="./game.html">Juego de cartas</a>
+        <a class="headerLogo" href="#" aria-label="Ir a la página principal"><img src="./src/img/logo.png" alt="Logo de Pokémon"></a>
+        <nav role="navigation">
+            <a href="./index.html" aria-label="Ir a Inicio">Inicio</a>
+            <a href="./pokedex.html" aria-label="Ir a la Pokedex">Pokedex</a>
+            <a href="./game.html" aria-label="Ir al Juego de cartas">Juego de cartas</a>
         </nav>
-        <div class="btn-nav-container">
-            <div class="btn-nav">
+        <div class="btn-nav-container" aria-label="Menú de navegación">
+            <div class="btn-nav" aria-hidden="true">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -27,33 +48,43 @@
     <main>
         <section id="cardGame">
             <div id="gameBanner">
-                <div id="player1Banner">
+                <div id="player1Banner" aria-label="Marcador del Jugador 1">
                     <h2>Player 1</h2>
                     <p id="player1Points">0</p>
                 </div>
-                <div id="player2Banner">
+                <div id="player2Banner" aria-label="Marcador del Jugador 2">
                     <h2>Player 2</h2>
                     <p id="player2Points">0</p>
                 </div>
             </div>
             <div id="gameContainer">
-                <ol id="player1-cards"></ol>
+                <ol id="player1-cards" aria-label="Cartas del jugador 1"></ol>
                 <div id="battleContainer">
-                    <div id="player1Card">
+                    <div id="player1Card" aria-label="Carta del jugador 1">
                         <img src="./src/img/placeholder.webp" alt="Carta del jugador 1" id="player1CardImage">
                     </div>
                     <div id="battleGame">
-                        <h3></h3>
+                        <h3 id="battleResult" aria-live="polite"></h3>
                     </div>
-                    <div id="player2Card">
+                    <div id="player2Card" aria-label="Carta del jugador 2">
                         <img src="./src/img/placeholder.webp" alt="Carta del jugador 2" id="player2CardImage">
                     </div>
-                    <button id="gameButton">Jugar</button>
+                    <button id="gameButton" aria-label="Iniciar juego">Jugar</button>
                 </div>
-                <ol id="player2-cards"></ol>
+                <ol id="player2-cards" aria-label="Cartas del jugador 2"></ol>
             </div>
         </section>
     </main>
+    <footer>
+        <div class="footer-content">
+            <p>Creado por Santt</p>
+            <p>2024</p>
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Santt-m/pokeApiProyect" aria-label="Visita mi repositorio en GitHub"><img src="./src/icons/github-dark.svg" alt="Icono de GitHub"> Github</a>
+            <a href="https://www.linkedin.com/in/santtm/" aria-label="Visita mi perfil en LinkedIn"><img src="./src/icons/linkedin.svg" alt="Icono de LinkedIn"> Linkedin</a>
+        </div>
+    </footer>
     <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -28,38 +28,52 @@ export const localIcons = {
     stellar: '../src/icons/stellar.png',
 };
 
+// Objeto de caché para almacenar Pokémon
+const pokemonCache = {};
+
 // Función para obtener un Pokémon por ID o nombre.
 export async function getPokemonByIdOrName(query) {
     const isId = !isNaN(query); // Verifica si la consulta es un número (ID)
     const url = isId ? `${BASE_URL}pokemon/${query}` : `${BASE_URL}pokemon/${query.toLowerCase()}`;
 
+    // Verificar si el Pokémon está en caché
+    if (pokemonCache[url]) {
+        console.log('Obteniendo Pokémon desde caché:', url);
+        return pokemonCache[url];
+    }
+
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('No se encontró ningún Pokémon con ese ID o nombre');
-        return await response.json();
+        const data = await response.json();
+
+        // Guardar el resultado en caché
+        pokemonCache[url] = data;
+        return data;
     } catch (error) {
         console.error('Error al buscar Pokémon:', error);
         throw error;
     }
 }
+
 // Función para buscar Pokémon por nombre parcial (filtro)
 export async function searchPokemonsByName(query) {
-    const BASE_URL = 'https://pokeapi.co/api/v2/';
     const response = await fetch(`${BASE_URL}pokemon?limit=1000`);  // Cargar todos los Pokémon
     const data = await response.json();
     return data.results.filter(pokemon => pokemon.name.includes(query.toLowerCase()));
 }
+
 // Función para obtener un Pokémon aleatorio.
 export async function getRandomPokemon() {
     try {
         const randomId = Math.floor(Math.random() * 898) + 1; // 898 es el número de Pokémon en la generación 8
-        const response = await fetch(`${BASE_URL}pokemon/${randomId}`);
-        return await response.json();
+        return await getPokemonByIdOrName(randomId); // Llama a la función que ahora usa caché
     } catch (error) {
         console.error('Error al obtener Pokémon aleatorio:', error);
         return null;
     }
 }
+
 // Función para obtener los datos completos de un Pokémon desde su URL
 export async function fetchPokemonData(url) {
     const response = await fetch(url);
@@ -73,6 +87,7 @@ export async function fetchPokemons() {
     const data = await response.json();
     return data;
 }
+
 // Función para obtener dos Pokémon aleatorios que no sean el correcto
 export async function getTwoRandomPokemons(correctPokemonName) {
     const randomPokemons = [];
@@ -88,16 +103,26 @@ export async function getTwoRandomPokemons(correctPokemonName) {
 
 // Función para obtener todos los Pokémon con paginación.
 export async function getAllPokemons(offset = 0, limit = 20) {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+    const response = await fetch(`${BASE_URL}pokemon?offset=${offset}&limit=${limit}`);
     if (!response.ok) throw new Error('Network response was not ok');
     return await response.json();
 }
 
 // Función para obtener los detalles de un Pokémon específico por su URL.
 export async function getPokemonDetails(pokemonUrl) {
+    // Verificar si el Pokémon está en caché
+    if (pokemonCache[pokemonUrl]) {
+        console.log('Obteniendo detalles de Pokémon desde caché:', pokemonUrl);
+        return pokemonCache[pokemonUrl];
+    }
+    
     try {
         const response = await fetch(pokemonUrl);
-        return await response.json();
+        const data = await response.json();
+        
+        // Guardar el resultado en caché
+        pokemonCache[pokemonUrl] = data;
+        return data;
     } catch (error) {
         console.error("Error al obtener los detalles del Pokémon:", error);
         return null;

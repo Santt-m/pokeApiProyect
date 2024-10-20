@@ -3,21 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name="language" content="es">
+    <!-- SEO tags -->
+    <meta name="description" content="pokeApi: Busca Pokémon en nuestra aplicación interactiva. Juega al juego de cartas de Pokémon. Encuentra información sobre tus Pokémon favoritos, sus tipos y habilidades. Mira el clima también, juega a quién es este Pokémon desde Ciudad Autónoma de Buenos Aires, Argentina, o desde cualquier parte del mundo.">
+    <meta name="city" content="Ciudad Autónoma de Buenos Aires">
+    <meta name="country" content="Argentina">
+    <meta name="geography" content="Global">
+    <meta name="keywords" content="Pokémon, búsqueda de Pokémon, información de Pokémon, PokeAPI, aplicación de Pokémon, juego de cartas, colección de Pokémon, descubre quién es este Pokémon">
+    <meta name="author" content="Santt">
+    <meta name="copyright" content="Santt">
+    <link rel="canonical" href="https://poke-api-proyect.vercel.app/">
+    <!-- index recommended -->
+    <meta name="robots" content="All, index, follow">
+    <!-- OpenGraph -->
+    <meta property="og:title" content="PokeAPI | Busca y Descubre Pokémon">
+    <meta property="og:description" content="Explora y busca información sobre Pokémon en nuestra aplicación. Aprende sobre tipos, habilidades y disfruta de juegos interactivos.">
+    <meta property="og:url" content="https://poke-api-proyect.vercel.app/index.html">
+    <meta property="og:image" content="./src/img/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PokeAPI">
+    <!-- CSS links -->
     <link rel="stylesheet" href="style.css">
-    <title>Santt | Inicio </title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <!-- Title -->
+    <title>PokeAPI | Busca y Descubre Pokémon</title>
 </head>
 <body>
     <header>
-        <a class="headerLogo" href="#"><img src="./src/img/logo.png" alt="logo pokemon"></a>
-
+        <a class="headerLogo" href="./index.html" aria-label="Ir a la página principal"><img src="./src/img/logo.png" alt="Logo de Pokémon"></a>
         <nav>
             <a href="./index.html">Inicio</a>
             <a href="./pokedex.html">Pokedex</a>
             <a href="./game.html">Juego de cartas</a>
         </nav>
-        <div class="btn-nav-container">
-            <div class="btn-nav">
+        <div class="btn-nav-container" aria-label="Menú de navegación">
+            <div class="btn-nav" aria-hidden="true">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -26,48 +47,45 @@
     </header>
     <main>
         <section id="pokemonFinder">
-            <h2>Busca un pokemon !</h2>
+            <h2>Busca un Pokémon</h2>
             <div class="input-container">
-                <input type="text" id="pokemonNumber" placeholder="Escribe el ID o nombre de Pokémon" autocomplete="on">
-                <button id="searchButton"><img src="./src/img/seach.svg" alt="seach icon">Buscar Pokémon</button>
+                <input type="text" id="pokemonNumber" placeholder="Escribe el ID o nombre de Pokémon" autocomplete="on" aria-label="Buscar Pokémon por ID o nombre">
+                <button id="searchButton" aria-label="Buscar Pokémon"><img src="./src/img/seach.svg" alt="Icono de búsqueda">Buscar Pokémon</button>
             </div>
-            <div id="resultContainer"></div>
+            <div id="resultContainer" aria-live="polite"></div>
         </section>
         <section id="weatherSection">
             <h2>El clima</h2>
-            <h3>porque yo sé que querías saberlo</h3>
+            <h3>Porque yo sé que querías saberlo</h3>
             <div class="weather-search">
-                <input type="text" id="cityInput" list="autocomplete-list" placeholder="Escribe una ciudad...">
+                <input type="text" id="cityInput" list="autocomplete-list" placeholder="Escribe una ciudad..." aria-label="Buscar ciudad para clima">
                 <datalist id="autocomplete-list"></datalist>
             </div>
             
-            <div id="weatherResult">
+            <div id="weatherResult" aria-live="polite">
                 <div id="currentWeather">
                     <h3>Clima Ahora</h3>
-                    <img id="weatherIcon" src="" alt="Weather Icon" style="display: none;">
+                    <img id="weatherIcon" src="" alt="Icono del clima" style="display: none;">
                     <ol>
-                        <li id="currentCity"></li>
-                        <li id="currentTemp"></li>
-                        <li id="currentCondition"></li>
+                        <li id="currentCity" aria-label="Ciudad actual"></li>
+                        <li id="currentTemp" aria-label="Temperatura actual"></li>
+                        <li id="currentCondition" aria-label="Condición actual"></li>
                     </ol>
                 </div>
                 <div id="forecastWeather">
                     <h3>Pronóstico a 7 días</h3>
-                    <ul id="forecastList"></ul>
+                    <ul id="forecastList" aria-label="Pronóstico del clima a 7 días"></ul>
                 </div>
             </div>
         </section>
-        
-        
-        
         <section id="whoGame">
             <h2>¿Quién es este Pokémon?</h2>
             <div id="pokemon-container">
-                <img id="pokemon-silhouette" src="" alt="Cual es este pokemon" class="pokemon-image">
-                <div id="timer-display"></div>
-                <div id="feedback" class="feedback-message"></div>
+                <img id="pokemon-silhouette" src="" alt="Silhouette de un Pokémon" class="pokemon-image">
+                <div id="timer-display" aria-label="Contador de tiempo"></div>
+                <div id="feedback" class="feedback-message" aria-live="polite"></div>
             </div>
-            <div id="options-container" class="options-container"></div>
+            <div id="options-container" class="options-container" aria-label="Selecciona una opción para descubrir qué Pokémon es..."></div>
         </section>
     </main>
     <footer>
@@ -76,8 +94,8 @@
             <p>2024</p>
         </div>
         <div class="footer-links">
-            <a href="https://github.com/Santt-m/pokeApiProyect"><img src="./src/icons/github-dark.svg" alt="Github icon"> Github</a>
-            <a href="https://www.linkedin.com/in/santtm/"><img src="./src/icons/linkedin.svg" alt="linkedin icon"> Linkedin</a>
+            <a href="https://github.com/Santt-m/pokeApiProyect" aria-label="Visita mi repositorio en GitHub"><img src="./src/icons/github-dark.svg" alt="Icono de GitHub"> Github</a>
+            <a href="https://www.linkedin.com/in/santtm/" aria-label="Visita mi perfil en LinkedIn"><img src="./src/icons/linkedin.svg" alt="Icono de LinkedIn"> Linkedin</a>
         </div>
     </footer>
     <script type="module" src="app.js"></script>
